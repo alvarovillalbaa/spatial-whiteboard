@@ -1,0 +1,10 @@
+version = 1
+name = "Spatial Whiteboard"
+
+[setup]
+script = ""
+
+[[actions]]
+name = "Build visionOS Simulator"
+icon = "run"
+command = "./script/check_native.sh visionos-simulator"

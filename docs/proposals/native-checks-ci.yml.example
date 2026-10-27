@@ -1,0 +1,40 @@
+name: Spatial Whiteboard focused native checks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Record source and toolchain
+        run: |
+          git rev-parse HEAD
+          sw_vers
+          swift --version
+          xcodebuild -version
+          xcodebuild -showsdks
+          xcrun --sdk xrsimulator --show-sdk-path
+      - name: Check source metadata
+        run: |
+          bash -n script/check_native.sh
+          plutil -lint Resources/Info.plist Resources/PrivacyInfo.xcprivacy
+          plutil -lint SpatialWhiteboard.xcodeproj/project.pbxproj
+          git diff --check
+      - name: Run authored in-memory core cases
+        run: swift test
+      - name: Compile unsigned generic visionOS Simulator app
+        run: |
+          xcodebuild -project SpatialWhiteboard.xcodeproj -scheme SpatialWhiteboard \
+            -configuration Debug -sdk xrsimulator \
+            -destination 'generic/platform=visionOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/spatial-whiteboard-derived" \
+            CODE_SIGNING_ALLOWED=NO build
