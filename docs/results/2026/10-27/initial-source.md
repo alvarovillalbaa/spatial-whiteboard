@@ -1,6 +1,6 @@
 # Initial native source receipt
 
-27 October 2026. Status: source implementation complete, publication pending. This work does not complete
+27 October 2026. Status: source implementation published, native checks pending. This work does not complete
 the owning all-project goal.
 
 ## Intent and isolation
@@ -53,4 +53,19 @@ Frozen SHA256 fingerprints over sorted relative Swift paths, NUL, bytes, NUL:
 Review corrected native scene metadata, the final revised candidate's byte-cap
 check, renderer API visibility, native undo generation, gesture cancellation
 and export snapshot teardown. These are source-reviewed contracts, not observed
-visionOS behavior. Publication readback will be recorded after upload.
+visionOS behavior.
+
+## Publication
+
+Source commit
+[`9ed03dae153d73b8b4ffd75b3b1705d8210d1838`](https://github.com/alvarovillalbaa/spatial-whiteboard/tree/9ed03dae153d73b8b4ffd75b3b1705d8210d1838)
+was pushed to the new public personal repository
+`alvarovillalbaa/spatial-whiteboard`. Authenticated CLI identity was verified
+before creation. Connected GitHub metadata confirms personal ownership, public
+visibility and the `main` default branch. The API branch SHA matches local HEAD.
+
+Immutable connected file readback matches local Git blobs for BoardEditor
+(`8710e5a2bb1cb020e4b1257839ca67ae103bd78a`), BoardHistory
+(`d7873cf9c2c05b6070416068107c0ee20a4a96f3`) and the native-check proposal
+(`7c05114a1611fc0b53744ae31bb4ddd2ca0c2510`). This establishes source
+publication; native platform behavior and distribution remain unverified.
