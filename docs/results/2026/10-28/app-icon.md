@@ -1,6 +1,6 @@
 # Layered visionOS icon source
 
-28 October 2026. Source artwork and target registration are prepared toward
+28 October 2026. Source artwork and target registration are published toward
 the active all-project goal. Native compilation and distribution remain open.
 
 The repo previously had bundle metadata and a privacy manifest but no asset
@@ -60,8 +60,8 @@ Exporter SHA256:
 `4bdba536a16700b77acfdaabbd41cfbb268c2bdbc5feaa17e3a68c9e69d1185e`.
 Project SHA256:
 `b10b9eb593b44e47c90ad66510f234f0076d74ed74ae647a9baf47e40276f8c9`.
-Source publication/readback evidence will follow delivery. The two task-owned
-Apple sample downloads were removed after metadata/provenance capture.
+The two task-owned Apple sample downloads were removed after metadata/provenance
+capture.
 
 No native core tests, asset compiler, app build, simulator boot, app launch,
 eye/hand input, notification prompt, signing, store submission or CI dispatch
@@ -70,3 +70,14 @@ an exhaustive installation search. The existing [native-check proposal](../../..
 remains pending approval. Source metadata proves neither `actool` acceptance
 nor the icon's depth, scale or appearance on a simulator/device. The exact
 “TL;DW” reference in the brief also remains an open product clarification.
+
+## Publication
+
+Source [`1b8d2f5761fa2cd816a56148a4430d703b60eec7`](https://github.com/alvarovillalbaa/spatial-whiteboard/commit/1b8d2f5761fa2cd816a56148a4430d703b60eec7)
+was pushed to personal-repository main. Immutable connected GitHub reads match
+the local project (`ee022e228e97e92abfe6e4e6780e09e0eca186c5`), exporter
+(`fb2dcb3c504776395ae682399627a07f276b9a2b`), stack metadata
+(`e6a454635c112b655ac282b18fdea68fe4af90fe`) and all three PNG blobs. Remote
+main matched that source exactly. The later receipt-only commit preserves
+all checked artwork, resource/project and app/core/test bytes. No active
+workflow or hosted service was introduced; native-check approval is pending.
