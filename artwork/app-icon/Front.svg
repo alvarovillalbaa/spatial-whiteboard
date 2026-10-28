@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Spatial Whiteboard diagram layer</title>
+  <desc>Two colored diagram nodes joined by a broad right-angle connector.</desc>
+  <rect x="464" y="382" width="170" height="20" rx="10" fill="#3B7F86" />
+  <rect x="614" y="382" width="20" height="200" rx="10" fill="#3B7F86" />
+  <rect x="304" y="336" width="176" height="112" rx="28" fill="#365FEE" />
+  <rect x="544" y="560" width="176" height="112" rx="28" fill="#EA7D62" />
+</svg>

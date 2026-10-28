@@ -1,7 +1,7 @@
 # Spatial Whiteboard
 
 A native visionOS whiteboard for drawing and diagrams in a spatial window.
-Initial source implementation is complete. It has not been compiled or run on a simulator
+Initial drawing and diagramming source is prepared. It has not been compiled or run on a simulator
 or device; this is not an installed or distributed application.
 
 ## Workflow
@@ -26,7 +26,22 @@ hand tracking or access to the room.
 Open `SpatialWhiteboard.xcodeproj` in Xcode 16 or newer with a visionOS SDK.
 Choose the shared SpatialWhiteboard scheme and an appropriate simulator/device.
 Physical device signing and distribution need an owner-selected Apple team;
-none is configured. App icons and store assets are not prepared in this source.
+none is configured. Original layered icon artwork and catalog wiring are prepared;
+asset compilation, system appearance and store screenshots remain unverified.
+
+The icon has three editable SVG masters in `artwork/app-icon/`. Its exporter
+uses Python's standard library to produce a full-square opaque background and
+two transparent 1024-square foreground layers. Xcode receives the layered
+`AppIcon.solidimagestack`; `artwork/app-icon/Preview.png` is an unmasked flat
+artwork reference, not a visionOS screenshot or depth preview.
+
+```sh
+python3 script/render_app_icon.py --check
+```
+
+Omit `--check` to export SVG edits. The check compares PNG format and decoded
+pixels, allowing platform zlib compression bytes to differ. See the
+[icon-source receipt](docs/results/2026/10-28/app-icon.md) for exact proof limits.
 
 The local environment action performs an unsigned generic simulator build; it
 does not launch the app. It respects the workspace Storage Guard when present.

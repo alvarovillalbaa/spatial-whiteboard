@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Spatial Whiteboard background</title>
+  <desc>Full-square teal background; visionOS applies its own circular mask.</desc>
+  <rect x="0" y="0" width="1024" height="1024" fill="#225A65" />
+</svg>

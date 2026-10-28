@@ -37,3 +37,11 @@ fixes; any changed scope must remain within this proposal or be approved anew.
 These checks establish only the results actually observed. Even a successful
 build and core tests would leave document save/reopen/conflicts, visionOS input,
 visual rendering, accessibility and device/distribution behavior unverified.
+
+## Later source assets
+
+The [28 October icon source](../results/2026/10-28/app-icon.md) adds a layered
+visionOS asset catalog to the same target. The proposed unsigned target build
+will include that catalog if the pending check is approved against current
+source. Core/app code, native helper and inactive workflow steps are unchanged;
+no new job or dispatch has been authorized or executed by this asset addition.
