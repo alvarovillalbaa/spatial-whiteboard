@@ -1,0 +1,453 @@
+{
+  "schema_version": 1,
+  "source_commit": "31fa91e61ff562e18dcdb2bbba7f5b8c1dcc7a99",
+  "source_tree": "6f59b9949489af835cb8866954b744545485e0b3",
+  "verified_at_utc": "2026-10-29 22:16:06 UTC",
+  "repository": "alvarovillalbaa/spatial-whiteboard",
+  "branch": "main",
+  "remote_ref_matched": true,
+  "remote_tree_truncated": false,
+  "remote_leaf_identities_matched": 68,
+  "remote_leaves": [
+    {
+      "path": ".codex/environments/environment.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3f04d02914d1c850396ebdc1ef99449dfd2b9e1"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa7282a57373f3f37a459a93b42761a3a013346d"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cd0a8aba046e28f8b0aebb08c5e8615569e6db7"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Canvas/BoardCanvas.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "865b118b6ed72e4cf8870e051090c36ce7ee7aa1"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Canvas/BoardRenderer.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca6449450fa9d21aac88ab8707bccd8bbaa3b4d1"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardInspector.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57d0e395183c693bcbf0413d71b314b333d95c02"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardTitleSheet.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53f9073ea72f7f75503d2a48ef36a0b3b3471efd"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardToolbar.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "130b794022b135182d14e57de0a07bdb5a6df546"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/ItemEditorSheet.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed2b038260d714ca5dc600e12f301d70dd7c652b"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/ObjectList.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ff464727f0efb61d454a6bcce1e4ee0746cc5fe"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Documents/BoardDocument.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a9ef277799382b6e71e9b86b8eba9656a6a2ac5"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Documents/ExportDocument.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b465934e40b9cef1ef599ab4d8b8447992749cd8"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/BoardEditor.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24a437a309ed2ac55b44f33075e4844dbf7d198e"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/CanvasGesture.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88e4e6a5b219f097b575e5e73af0170a335a1ab4"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/EditorState.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "634319fb57b28f4a6d75a00b0758a77d4edc3465"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/EditorTool.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78b51e87a0a0e19517e6cfc1000ac6fc97bf8aa4"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/Viewport.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "33570e1954915550b3164b49cf88c94711117c2b"
+    },
+    {
+      "path": "App/SpatialWhiteboard/SpatialWhiteboardApp.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7dca82aa3d4160489f001a79719687df18607558"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Support/BoardPresentation.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2a58c7ca1cd40f3e3d6c8b6d4a52525c0c582f4"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fb52b674e5a4d756d26a8fc3619651bb3b28798"
+    },
+    {
+      "path": "Package.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9bc2eea9c34e3d09c41f44f9529ec68b31947d12"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea2d011c9129f035b331179e20bb91edf1df15f0"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Back.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0660dd49d726a7d5a454e5e138505a90ce58355b"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad77d8c75576b99aa7ac2094d679c7ce9c36b14d"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74d6a722cf39b2dd5bef11f166e6ac9b99568a01"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6a454635c112b655ac282b18fdea68fe4af90fe"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9ec41a34a7e673d1b14ba0dbc78e809eedadee8"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Front.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "545e3cdf20f40052237a367d9fcf1d9733e64267"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74d6a722cf39b2dd5bef11f166e6ac9b99568a01"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44d1281b5daf3745d35b2f3170d269e68758aed1"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Middle.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2453343730301050bfda3577c70f9125e0f66bbe"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74d6a722cf39b2dd5bef11f166e6ac9b99568a01"
+    },
+    {
+      "path": "Resources/Assets.xcassets/Contents.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74d6a722cf39b2dd5bef11f166e6ac9b99568a01"
+    },
+    {
+      "path": "Resources/Info.plist",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82acc0d7d670a9eb3f4c1fbcd075c95d63fecdac"
+    },
+    {
+      "path": "Resources/PrivacyInfo.xcprivacy",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8beb43b93a909a2cfc4e7724d9f23a4a2406e850"
+    },
+    {
+      "path": "Sources/BoardCore/BoardCodec.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38691b3f6c16c38c73ddc9d50d98764e4436bbf1"
+    },
+    {
+      "path": "Sources/BoardCore/BoardGeometry.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3064a1b66bdd38136dd475a198f8c4a347a60c73"
+    },
+    {
+      "path": "Sources/BoardCore/BoardHistory.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f7774477b193abb5fb61bbb5e3068eff121cf64"
+    },
+    {
+      "path": "Sources/BoardCore/BoardSVG.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d05e2f07a82dff72d4e742710a25b0e123401a5d"
+    },
+    {
+      "path": "Sources/BoardCore/JSONStructure.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf6a05035d49f7101c177dd243f83d0e9a7eac27"
+    },
+    {
+      "path": "Sources/BoardCore/Models.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ceccf14049dcd4fd8d3a6bc283dae06ed152ac6"
+    },
+    {
+      "path": "Sources/BoardCore/Validation.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50f096a38451ed293a194ad7d75952fa58eb9663"
+    },
+    {
+      "path": "SpatialWhiteboard.xcodeproj/project.pbxproj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee022e228e97e92abfe6e4e6780e09e0eca186c5"
+    },
+    {
+      "path": "SpatialWhiteboard.xcodeproj/xcshareddata/xcschemes/SpatialWhiteboard.xcscheme",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85c63a8c8c74ad83c622271bc001ee48b37ebd7d"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardBatchEditingTests.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09b4b1e8b96a6d30f8df2afc03849eb320af044e"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardCodecTests.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3fb6aa389c9d36d1723a1490a11bd4f3492223c0"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardFixtures.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3878df4e9411f210f88d2d5cfe29578895f2f198"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardGeometrySVGTests.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f16dfcea2e3b64dd1d20f924e144be44ef7eec71"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardHistoryTests.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e11ccd7a6c7731db6ef337e3f5c30ed12ab9f7f"
+    },
+    {
+      "path": "Tests/EditorChecks/MultiSelectionChecks.swift",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57ffde5e300ab8b9f235425bbc337b4c216c7d0a"
+    },
+    {
+      "path": "artwork/app-icon/Back.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a5b2d485d5308dd6eda5da38056413d1ce1b9f9"
+    },
+    {
+      "path": "artwork/app-icon/Front.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f282964ab5161fdc20405eec98aae3087fcc46fa"
+    },
+    {
+      "path": "artwork/app-icon/Middle.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6ba84a3cdd90c4c369a5d8f465d5c65afb91f57"
+    },
+    {
+      "path": "artwork/app-icon/Preview.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82005ded771cf2a7757541cc5f35a9724ffe8da1"
+    },
+    {
+      "path": "docs/architecture.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3cd6a8a5344f795a21190972bb912d3e76bce89"
+    },
+    {
+      "path": "docs/examples/multi-selection-checks.workflow.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "112e27f9ca741d09745d0fc61dda7d0893b3c7e3"
+    },
+    {
+      "path": "docs/proposals/multi-selection-checks.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "489f02b79414876c1a8ae6871e062490f173ab5d"
+    },
+    {
+      "path": "docs/proposals/native-checks-ci.yml.example",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e0cad12020362000f57d539170769c3c6e5372f"
+    },
+    {
+      "path": "docs/proposals/native-checks.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2ab2b9110cd24e3c09696b495751cc35e966760"
+    },
+    {
+      "path": "docs/results/2026/10-27/initial-source.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae7d8efd12aaaec235c58621f1cee476794b41ab"
+    },
+    {
+      "path": "docs/results/2026/10-28/app-icon.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b13a17517686b8a6814b0a4dfa68c32fa950067"
+    },
+    {
+      "path": "docs/results/2026/10-29/multi-selection-inventory.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9da0e64117006690920f0e438e37ffe023adc434"
+    },
+    {
+      "path": "docs/results/2026/10-29/multi-selection.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e37a034fefc7e7fccbb39014f6242214ac0924b"
+    },
+    {
+      "path": "docs/specs/core-contract.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "608d6b58878401439972960bc2d11d878b7ffaba"
+    },
+    {
+      "path": "docs/specs/product.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "196a15e0db077f806587c0f154f2d1801a18940b"
+    },
+    {
+      "path": "script/check_native.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f7ac9b9d602e66cb8370d88f08d1b45ed0f28f17"
+    },
+    {
+      "path": "script/check_selection_editor.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "4e4f977300fb598ee21404ae2ff1efc2033bb58a"
+    },
+    {
+      "path": "script/render_app_icon.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb2dcb3c504776395ae682399627a07f276b9a2b"
+    }
+  ],
+  "local_checkout_at_source": "clean",
+  "actions_runs_for_source": 0,
+  "source_inventory": {
+    "files": 64,
+    "core_cases": 69,
+    "editor_cases": 16,
+    "expected_native_cases": 85,
+    "status": "authored_unrun",
+    "approval": "pending"
+  },
+  "static_checks": {
+    "swift_parse_files": 29,
+    "shell_helpers": 2,
+    "property_lists_and_project": 3,
+    "yaml_parser": "system Ruby Psych",
+    "workflow_shell_blocks": 9,
+    "workflow_python_blocks": 3,
+    "local_markdown_links": 18,
+    "protected_baseline_tracked_files": 45,
+    "whitespace": "passed"
+  },
+  "review": {
+    "core_app_integration": "no additional concrete findings after preview ordering repair",
+    "editor_fixture": "actual source; unrun",
+    "ci_proposal": "two static command/path defects repaired; final source hashes matched"
+  },
+  "limits": [
+    "No typecheck, native tests/build, simulator boot or app launch.",
+    "No real user documents, native UndoManager/FileDocument execution, physical gestures or accessibility acceptance.",
+    "Temporary CI has been requested once and remains inactive.",
+    "No dependency installation, signing, model call or paid service."
+  ]
+}

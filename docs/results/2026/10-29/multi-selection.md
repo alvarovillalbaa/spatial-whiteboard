@@ -54,3 +54,12 @@ simulator boot, app launch, user document access or tracking input ran.
 Type/API compatibility, native UndoManager, save/reopen/conflicts, actual input,
 rendering/accessibility and device/distribution remain unverified. Source
 parsing and authored fixtures cannot establish those outcomes.
+
+Source and the complete proposed check scope were published at
+[`31fa91e61ff562e18dcdb2bbba7f5b8c1dcc7a99`](https://github.com/alvarovillalbaa/spatial-whiteboard/commit/31fa91e61ff562e18dcdb2bbba7f5b8c1dcc7a99).
+Connected GitHub readback matched all 68 leaf paths, modes, types and blob SHAs
+against the local tree, without truncation; the checkout was clean and the
+commit had zero Actions runs. The [publication receipt](multi-selection-publication.json)
+preserves those identities and static proof limits. One approval request links
+the exact published 85-case/build proposal. It remains pending; no active
+workflow was installed. This evidence-only follow-up changes no sealed source.
