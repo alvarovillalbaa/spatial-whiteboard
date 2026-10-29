@@ -9,7 +9,9 @@ struct BoardInspector: View {
 
     var body: some View {
         Form {
-            if let item = editor.selectedItem {
+            if editor.selectedItems.count > 1 {
+                selectionControls
+            } else if let item = editor.selectedItem {
                 let stamp = editor.stamp
                 Section(item.kind.title) {
                     LabeledContent("X", value: BoardPresentation.number(item.frame.x))
@@ -37,7 +39,7 @@ struct BoardInspector: View {
                     Button("Delete object", systemImage: "trash", role: .destructive) { onCommand(.delete(item.id), stamp) }
                 }
                 .disabled(!isEditable)
-                Button("Clear selection") { editor.select(nil) }
+                Button("Clear selection") { editor.clearSelection() }
             } else {
                 Section("Drawing style") {
                     styleControls(style: editor.style, kind: editor.tool.kind) { style in
@@ -54,6 +56,46 @@ struct BoardInspector: View {
         }
         .formStyle(.grouped)
         .frame(minWidth: 240, idealWidth: 270, maxWidth: 300)
+    }
+
+    @ViewBuilder
+    private var selectionControls: some View {
+        let items = editor.selectedItems
+        let ids = items.map(\.id)
+        let stamp = editor.stamp
+        Section("Selection") {
+            LabeledContent("Objects", value: String(items.count))
+            if let bounds = editor.selectedBounds {
+                LabeledContent("X", value: BoardPresentation.number(bounds.x))
+                LabeledContent("Y", value: BoardPresentation.number(bounds.y))
+                LabeledContent("Width", value: BoardPresentation.number(bounds.width))
+                LabeledContent("Height", value: BoardPresentation.number(bounds.height))
+            }
+            Button("Move selection…", systemImage: "arrow.up.and.down.and.arrow.left.and.right") { editor.moveSelection() }
+                .disabled(!isEditable)
+            Text("Select one object to edit its text, size or style.").font(.caption).foregroundStyle(.secondary)
+        }
+        Section("Arrange selection") {
+            Button("Duplicate \(items.count) objects", systemImage: "plus.square.on.square") {
+                onCommand(.duplicateMany(ids: ids, newIDs: ids.map { _ in UUID() }, offset: BoardPoint(x: 24, y: 24)), stamp)
+            }
+            .disabled(editor.board.items.count + items.count > 500)
+            Button("Bring selection to front", systemImage: "square.3.layers.3d.top.filled") {
+                onCommand(.bringToFrontMany(ids), stamp)
+            }
+            Button("Send selection to back", systemImage: "square.3.layers.3d.bottom.filled") {
+                onCommand(.sendToBackMany(ids), stamp)
+            }
+            Button("Delete \(items.count) objects", systemImage: "trash", role: .destructive) {
+                onCommand(.deleteMany(ids), stamp)
+            }
+            if editor.board.items.count + items.count > 500 {
+                Text("Duplicating this selection would exceed the 500-object limit.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+        }
+        .disabled(!isEditable)
+        Button("Clear selection") { editor.clearSelection() }
     }
 
     private func styleControls(style: BoardStyle, kind: BoardKind?, update: @escaping (BoardStyle) -> Void) -> some View {

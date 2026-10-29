@@ -32,12 +32,12 @@ struct ObjectList: View {
                 List {
                     ForEach(editor.board.items.reversed()) { item in
                         let stamp = editor.stamp
-                        Button { editor.select(item.id) } label: {
+                        Button { editor.selectFromList(item.id) } label: {
                             HStack(spacing: 12) {
                                 Image(systemName: item.kind.symbol).foregroundStyle(item.style.ink.color)
                                 Text(item.displayName).lineLimit(2)
                                 Spacer(minLength: 0)
-                                if editor.selectedID == item.id {
+                                if editor.selectedIDs.contains(item.id) {
                                     Image(systemName: "checkmark.circle.fill").foregroundStyle(Color.accentColor)
                                 }
                             }
@@ -47,12 +47,17 @@ struct ObjectList: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("\(item.kind.title): \(item.displayName)")
-                        .accessibilityValue(editor.selectedID == item.id ? "Selected" : "")
-                        .accessibilityHint("Select to edit this object in the inspector.")
-                        .accessibilityAddTraits(editor.selectedID == item.id ? .isSelected : [])
+                        .accessibilityValue(editor.selectedIDs.contains(item.id) ? "Selected" : "Not selected")
+                        .accessibilityHint(editor.isSelectingMultiple
+                            ? "Add or remove this object from the selection."
+                            : "Select to edit this object in the inspector.")
+                        .accessibilityAddTraits(editor.selectedIDs.contains(item.id) ? .isSelected : [])
                         .contextMenu {
                             Group {
-                                Button("Edit object") { editor.select(item.id); editor.editSelected() }
+                                Button("Edit object") {
+                                    guard editor.board.items.contains(where: { $0.id == item.id }) else { return }
+                                    editor.select(item.id); editor.editSelected()
+                                }
                                 Button("Duplicate") { onCommand(.duplicate(id: item.id, newID: UUID(), offset: BoardPoint(x: 24, y: 24)), stamp) }
                                 Button("Bring to front") { onCommand(.bringToFront(item.id), stamp) }
                                 Button("Send to back") { onCommand(.sendToBack(item.id), stamp) }
@@ -64,7 +69,7 @@ struct ObjectList: View {
                 }
                 .listStyle(.plain)
             }
-            Text("\(editor.board.items.count) of 500 objects · Frontmost first")
+            Text("\(editor.board.items.count) of 500 objects · \(editor.selectedIDs.count) selected · Frontmost first")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding()

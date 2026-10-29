@@ -1,0 +1,170 @@
+# Inactive example. Install temporarily only after approval of this exact scope.
+name: Spatial multi-selection checks
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Approved exact 40-character source commit
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Validate source argument
+        run: '[[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]'
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.source_commit }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify complete source inventory
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          assert subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()==os.environ["SOURCE_COMMIT"]
+          seal=json.loads(pathlib.Path("docs/results/2026/10-29/multi-selection-inventory.json").read_text())
+          tracked=subprocess.check_output(["git","ls-files","-z"]).decode().split("\0")
+          actual={p for p in tracked if p and not p.startswith("docs/results/")}
+          assert actual=={e["path"] for e in seal["source_files"]},"Source file set changed"
+          for entry in seal["source_files"]:
+              path=pathlib.Path(entry["path"])
+              assert path.is_file() and not path.is_symlink(),entry["path"]
+              data=path.read_bytes()
+              assert len(data)==entry["bytes"] and hashlib.sha256(data).hexdigest()==entry["sha256"],entry["path"]
+          assert len(set(seal["core_case_names"]))==69
+          assert len(set(seal["editor_case_names"]))==16
+          PY
+          SPATIAL_CHECK_DIR="$(mktemp -d "$RUNNER_TEMP/spatial-multi.XXXXXX")"
+          stat -f '%d:%i' "$SPATIAL_CHECK_DIR" > "$SPATIAL_CHECK_DIR/owner"
+          printf 'SPATIAL_CHECK_DIR=%s\n' "$SPATIAL_CHECK_DIR" >> "$GITHUB_ENV"
+      - name: Record toolchain and require installed SDK
+        run: |
+          {
+            git rev-parse HEAD
+            sw_vers
+            uname -m
+            swift --version
+            xcodebuild -version
+            xcodebuild -showsdks
+            xcrun --sdk xrsimulator --show-sdk-path
+          } > "$SPATIAL_CHECK_DIR/toolchain.log" 2>&1
+      - name: Static project checks
+        run: |
+          bash -n script/check_native.sh
+          bash -n script/check_selection_editor.sh
+          plutil -lint Resources/Info.plist Resources/PrivacyInfo.xcprivacy SpatialWhiteboard.xcodeproj/project.pbxproj
+          git diff --check
+      - name: Run 69 core cases
+        run: |
+          swift test --scratch-path "$SPATIAL_CHECK_DIR/core-build" \
+            --xunit-output "$SPATIAL_CHECK_DIR/core-results.xml" \
+            > "$SPATIAL_CHECK_DIR/core.log" 2>&1
+      - name: Run 16 actual editor cases without an app window
+        run: |
+          bash script/check_selection_editor.sh \
+            > "$SPATIAL_CHECK_DIR/editor-results.json" 2> "$SPATIAL_CHECK_DIR/editor.log"
+      - name: Build unsigned visionOS Simulator target
+        run: |
+          xcodebuild -project SpatialWhiteboard.xcodeproj -scheme SpatialWhiteboard \
+            -configuration Debug -sdk xrsimulator \
+            -destination 'generic/platform=visionOS Simulator' \
+            -derivedDataPath "$SPATIAL_CHECK_DIR/derived" CODE_SIGNING_ALLOWED=NO build \
+            > "$SPATIAL_CHECK_DIR/visionos-build.log" 2>&1
+      - name: Verify exact cases and unchanged source
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,xml.etree.ElementTree as ET
+          root=pathlib.Path(os.environ["SPATIAL_CHECK_DIR"])
+          inventory=pathlib.Path("docs/results/2026/10-29/multi-selection-inventory.json")
+          seal=json.loads(inventory.read_text())
+          for entry in seal["source_files"]:
+              data=pathlib.Path(entry["path"]).read_bytes()
+              assert len(data)==entry["bytes"] and hashlib.sha256(data).hexdigest()==entry["sha256"],entry["path"]
+          def bounded(name):
+              data=(root/name).read_bytes()
+              assert len(data)<=1048576,name+" exceeded limit"
+              return data
+          xml=bounded("core-results.xml")
+          tree=ET.fromstring(xml)
+          assert not list(tree.iter("failure")) and not list(tree.iter("error")) and not list(tree.iter("skipped"))
+          cases=list(tree.iter("testcase"))
+          names=[c.attrib["classname"].split(".")[-1]+"."+c.attrib["name"].removesuffix("()") for c in cases]
+          assert len(names)==len(set(names))==69 and set(names)==set(seal["core_case_names"]),names
+          editor_bytes=bounded("editor-results.json")
+          editor=json.loads(editor_bytes)
+          assert editor["schemaVersion"]==1 and editor["kind"]=="spatial-whiteboard.editor-multi-selection"
+          assert editor["status"]=="passed" and editor["expectedCases"]==editor["passed"]==16 and editor["failed"]==0
+          assert [c["name"] for c in editor["cases"]]==seal["editor_case_names"]
+          assert all(c["status"]=="passed" for c in editor["cases"])
+          report={"schemaVersion":1,"source_commit":os.environ["SOURCE_COMMIT"],"status":"passed",
+              "core_cases":names,"editor_cases":[c["name"] for c in editor["cases"]],
+              "unsigned_visionos_build":"passed","app_launched":False,
+              "inventory_sha256":hashlib.sha256(inventory.read_bytes()).hexdigest(),
+              "core_xml_sha256":hashlib.sha256(xml).hexdigest(),
+              "editor_json_sha256":hashlib.sha256(editor_bytes).hexdigest()}
+          (root/"report.json").write_text(json.dumps(report,indent=2)+"\n")
+          PY
+      - name: Bound evidence and remove owned build scratch
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,shutil,subprocess
+          value=os.environ.get("SPATIAL_CHECK_DIR")
+          if not value:
+              raise SystemExit(0)
+          root=pathlib.Path(value)
+          assert not root.is_symlink() and root.is_dir()
+          assert root.parent.resolve()==pathlib.Path(os.environ["RUNNER_TEMP"]).resolve()
+          assert root.name.startswith("spatial-multi.")
+          assert (root/"owner").read_text().strip()==subprocess.check_output(["stat","-f","%d:%i",str(root)],text=True).strip()
+          records=[]
+          overflow=False
+          names=["toolchain.log","core-results.xml","core.log","editor-results.json","editor.log","visionos-build.log","report.json"]
+          for name in names:
+              path=root/name
+              if not path.exists():
+                  continue
+              assert path.is_file() and not path.is_symlink(),name
+              size=path.stat().st_size
+              with path.open("rb") as stream:
+                  data=stream.read(1048576)
+              truncated=size>1048576
+              if truncated:
+                  path.write_bytes(data)
+                  overflow=True
+              records.append({"path":name,"original_bytes":size,"retained_bytes":len(data),
+                  "sha256":hashlib.sha256(data).hexdigest(),"truncated":truncated})
+          for name in ["core-build","derived"]:
+              path=root/name
+              if path.exists():
+                  assert path.is_dir() and not path.is_symlink(),name
+                  shutil.rmtree(path)
+          (root/"artifact-manifest.json").write_text(json.dumps({"source_commit":os.environ["SOURCE_COMMIT"],
+              "files":records,"overflow":overflow},indent=2)+"\n")
+          assert not overflow,"Evidence exceeded bound; prefixes retained"
+          PY
+      - name: Preserve bounded evidence
+        if: ${{ always() && env.SPATIAL_CHECK_DIR != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: spatial-multi-selection-evidence
+          retention-days: 7
+          if-no-files-found: ignore
+          path: |
+            ${{ env.SPATIAL_CHECK_DIR }}/toolchain.log
+            ${{ env.SPATIAL_CHECK_DIR }}/core-results.xml
+            ${{ env.SPATIAL_CHECK_DIR }}/core.log
+            ${{ env.SPATIAL_CHECK_DIR }}/editor-results.json
+            ${{ env.SPATIAL_CHECK_DIR }}/editor.log
+            ${{ env.SPATIAL_CHECK_DIR }}/visionos-build.log
+            ${{ env.SPATIAL_CHECK_DIR }}/report.json
+            ${{ env.SPATIAL_CHECK_DIR }}/artifact-manifest.json

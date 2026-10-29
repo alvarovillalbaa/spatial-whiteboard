@@ -40,7 +40,7 @@ struct BoardCanvas: View {
             Canvas { context, size in
                 var drawing = context
                 do {
-                    try BoardRenderer.draw(board: editor.board, draft: editor.gesture, selection: editor.selectedID,
+                    try BoardRenderer.draw(board: editor.board, draft: editor.gesture, selection: editor.selectedIDs,
                                            viewport: editor.viewport, context: &drawing, size: size)
                 } catch {
                     context.draw(Text("Could not draw this board: \(error.localizedDescription)").foregroundColor(.red),
@@ -72,7 +72,7 @@ struct BoardCanvas: View {
             })
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Whiteboard canvas")
-        .accessibilityValue("\(editor.board.items.count) objects. \(editor.tool.title) tool.")
+        .accessibilityValue("\(editor.board.items.count) objects. \(editor.selectedIDs.count) selected. \(editor.tool.title) tool.")
         .accessibilityHint("Use the Objects panel and inspector to select, add and edit objects without drawing gestures.")
     }
 }

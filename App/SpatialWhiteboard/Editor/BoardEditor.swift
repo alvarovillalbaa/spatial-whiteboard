@@ -45,13 +45,19 @@ struct BoardEditor: View {
         .frame(minWidth: 900, minHeight: 640)
         .onAppear { configureUndo() }
         .onChange(of: document.board) { _, board in editor.receive(board); refreshUndo() }
-        .onChange(of: isEditable) { _, value in if !value { editor.choose(.select) } }
+        .onChange(of: isEditable) { _, value in
+            editor.cancelGesture()
+            if !value { editor.choose(.select) }
+        }
         .onChange(of: undoManager.map { ObjectIdentifier($0) }) { _, _ in configureUndo() }
         .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidUndoChange)) { historyChanged($0) }
         .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidRedoChange)) { historyChanged($0) }
         .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidCloseUndoGroup)) { refreshUndo($0) }
         .sheet(item: $editor.itemEditor) { context in
             ItemEditorSheet(context: context, isEditable: isEditable, onApply: apply)
+        }
+        .sheet(item: $editor.selectionEditor) { context in
+            SelectionMoveSheet(context: context, isEditable: isEditable, onApply: apply)
         }
         .sheet(item: $editor.titleEditor) { context in
             BoardTitleSheet(context: context, isEditable: isEditable, onApply: apply)

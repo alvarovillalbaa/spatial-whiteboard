@@ -28,6 +28,21 @@ nonnegative Int with overflow guarded. JSON parsing must bound recursion.
 `BoardEdit`: add(item), replace(item), delete(id), duplicate(id,newID,offset),
 bringToFront(id), sendToBack(id), rename(title).
 
+Atomic multi-object cases are `move(ids:offset:)`, `deleteMany(ids)`,
+`duplicateMany(ids:newIDs:offset:)`, `bringToFrontMany(ids)` and
+`sendToBackMany(ids)`. Selected-ID arrays must be unique, bounded to 500 and
+contain only existing IDs. Duplication requires one unique nonexisting new ID
+per selected ID; explicit ID pairs define identity, while appended copies keep
+the originals' board order. Front/back actions preserve the relative order of
+both selected and unselected objects. Empty/already-applied valid commands are
+no-ops; invalid IDs or nonfinite offsets still fail without changing history.
+
+Offsets are finite vectors, not board positions: a valid full-plane move can
+exceed 100000 units. All translated frames must still satisfy the existing
+coordinate/edge limits. A batch uses one shared offset, never per-object
+clamping, and full candidate validation includes object/point/encoded-byte caps.
+One successful batch increments revision and adds one history entry.
+
 `BoardHistory(board:)` throws on invalid initial state. Expose board, canUndo,
 canRedo. `perform(edit, expectedRevision:)`, `undo(expectedRevision:)` and
 `redo(expectedRevision:)` throw on invalid/stale commands. Edits are transactional
@@ -44,6 +59,9 @@ Selection/viewport/draft gestures are app state, not saved board mutations.
 - `BoardGeometry.hitTest(item, at: point, tolerance: Double)` selects meaningful
   line/stroke proximity and shape/text bounds. Tolerance is finite/nonnegative.
 - `BoardGeometry.bounds(of: items)` returns optional union.
+- `BoardGeometry.translated(item, by: offset)` validates the original item,
+  finite offset and translated item, changing only frame position. IDs, kinds,
+  normalized points, text, size and style remain unchanged.
 - `BoardCodec.encode(board)` / `decode(data)` enforce the full contract before
   returning. Native UTF-8 JSON, optional UTF-8 BOM, duplicate-key protection,
   strict allowed-key schema; no Foundation UTF-16/32 autodetection.
@@ -60,3 +78,13 @@ Native undo can restore a previous saved revision, so the app must additionally
 fence drafts/forms with a transient document-change generation. External/native
 document changes cancel stale drafts without assigning a new normalized board
 or registering another edit.
+
+The app additionally binds batch actions to the exact active selection. Gesture
+drafts capture IDs, original items, viewport and document stamp. Selection/tool/
+mode/viewport/editability/document changes revoke the draft. A latched
+four-screen-point threshold distinguishes selection taps from group dragging;
+returning a drag to its origin cannot toggle membership or consume history.
+An empty-canvas drag moves nothing. Preview replacements retain board z-order.
+The native Move Selection form freezes its ordered IDs/bounds/stamp and rejects
+stale membership before the core transaction. These transient fields do not
+enter Codable records, native JSON or SVG export.

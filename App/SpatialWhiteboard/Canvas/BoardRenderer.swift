@@ -2,26 +2,40 @@ import SwiftUI
 import BoardCore
 
 enum BoardRenderer {
-    static func draw(board: Board, draft: CanvasGesture?, selection: UUID?, viewport: BoardViewport,
+    static func draw(board: Board, draft: CanvasGesture?, selection: Set<UUID>, viewport: BoardViewport,
                      context: inout GraphicsContext, size: CGSize) throws {
         context.translateBy(x: size.width / 2 + CGFloat(viewport.offsetX),
                             y: size.height / 2 + CGFloat(viewport.offsetY))
         context.scaleBy(x: CGFloat(viewport.scale), y: CGFloat(viewport.scale))
+        let previews = draft?.previews ?? []
+        let isMoving = draft?.tool == .select
         for item in board.items {
-            if draft?.tool == .select, draft?.preview?.id == item.id { continue }
-            try draw(item, context: &context)
+            if isMoving, let preview = previews.first(where: { $0.id == item.id }) {
+                var previewContext = context
+                previewContext.opacity = 0.75
+                try draw(preview, context: &previewContext)
+            } else { try draw(item, context: &context) }
         }
-        if let preview = draft?.preview {
-            var previewContext = context
-            previewContext.opacity = 0.75
-            try draw(preview, context: &previewContext)
+        if draft?.tool.isDrawing == true {
+            for preview in previews {
+                var previewContext = context
+                previewContext.opacity = 0.75
+                try draw(preview, context: &previewContext)
+            }
         }
-        let selected = draft?.preview?.id == selection ? draft?.preview : board.items.first { $0.id == selection }
-        if let selected {
+        let selectedItems = board.items.filter { selection.contains($0.id) }.map { item in
+            isMoving ? (previews.first(where: { $0.id == item.id }) ?? item) : item
+        }
+        for selected in selectedItems {
             let inset = 5 / viewport.scale
             let bounds = rect(selected.frame).insetBy(dx: -inset, dy: -inset)
             context.stroke(Path(bounds), with: .color(.accentColor),
                            style: StrokeStyle(lineWidth: 1.5 / viewport.scale, dash: [6 / viewport.scale, 4 / viewport.scale]))
+        }
+        if selectedItems.count > 1, let union = try BoardGeometry.bounds(of: selectedItems) {
+            let bounds = rect(union).insetBy(dx: -9 / viewport.scale, dy: -9 / viewport.scale)
+            context.stroke(Path(bounds), with: .color(.accentColor),
+                           style: StrokeStyle(lineWidth: 2 / viewport.scale, dash: [10 / viewport.scale, 5 / viewport.scale]))
         }
     }
 

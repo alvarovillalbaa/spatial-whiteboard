@@ -25,6 +25,20 @@ struct BoardToolbar: View {
                 }
                 .padding(.horizontal, 16)
             }
+            HStack(spacing: 12) {
+                Toggle(isOn: Binding(get: { editor.isSelectingMultiple }, set: { editor.setMultipleSelection($0) })) {
+                    Label("Select multiple", systemImage: "checkmark.circle")
+                }
+                .toggleStyle(.button)
+                .frame(minHeight: 44)
+                Text("\(editor.selectedIDs.count) selected").font(.caption).foregroundStyle(.secondary)
+                Spacer(minLength: 8)
+                Menu {
+                    Button("Select all objects") { editor.selectAll() }.disabled(editor.board.items.isEmpty)
+                    Button("Clear selection") { editor.clearSelection() }.disabled(editor.selectedIDs.isEmpty)
+                } label: { Label("Selection", systemImage: "square.dashed") }
+            }
+            .padding(.horizontal, 16)
             Text(isEditable ? editor.tool.hint : "Read only. You can select objects, navigate the board and export a copy.")
                 .font(.caption)
                 .foregroundStyle(.secondary)

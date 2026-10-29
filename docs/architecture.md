@@ -16,6 +16,15 @@ undo restores the saved revision along with content, so a separate transient
 generation cancels stale drafts/forms on every document change. External/native
 changes are not replayed as new edits.
 
+Selection is now a transient set of existing IDs, presented in board order.
+Batch move/duplicate/delete/front/back actions use one BoardHistory validation
+and one document binding assignment. The native position sheet freezes its
+cohort, bounds and document stamp; commands also verify current membership.
+Canvas drafts capture originals, IDs, viewport and stamp, latch the drag
+threshold and share the core translation helper. Rendering substitutes moving
+previews in their original z-order rather than lifting them above unrelated
+objects. Read-only mode permits selection while preventing content commits.
+
 Strokes and arrows use normalized points within positive frames; moving or
 resizing changes the frame. Screen and world transforms are shared by input,
 rendering and hit testing. The board plane has bounded world coordinates;

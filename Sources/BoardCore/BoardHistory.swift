@@ -7,6 +7,11 @@ public enum BoardEdit: Equatable, Sendable {
     case duplicate(id: UUID, newID: UUID, offset: BoardPoint)
     case bringToFront(UUID)
     case sendToBack(UUID)
+    case move(ids: [UUID], offset: BoardPoint)
+    case deleteMany([UUID])
+    case duplicateMany(ids: [UUID], newIDs: [UUID], offset: BoardPoint)
+    case bringToFrontMany([UUID])
+    case sendToBackMany([UUID])
     case rename(String)
 }
 
@@ -47,6 +52,40 @@ public struct BoardHistory: Sendable {
         case .sendToBack(let id):
             let item = candidate.items.remove(at: try index(of: id))
             candidate.items.insert(item, at: 0)
+        case .move(let ids, let offset):
+            let selected = try selection(ids)
+            try BoardGeometry.validateTranslation(offset)
+            candidate.items = try board.items.map { item in
+                guard selected.contains(item.id) else { return item }
+                return try BoardGeometry.translated(item, by: offset)
+            }
+        case .deleteMany(let ids):
+            let selected = try selection(ids)
+            candidate.items.removeAll { selected.contains($0.id) }
+        case .duplicateMany(let ids, let newIDs, let offset):
+            guard ids.count == newIDs.count else { throw BoardError.invalid("Every duplicated object needs one new ID.") }
+            _ = try selection(ids)
+            try BoardGeometry.validateTranslation(offset)
+            let replacements = Set(newIDs)
+            guard replacements.count == newIDs.count,
+                  replacements.isDisjoint(with: Set(board.items.map(\.id))) else {
+                throw BoardError.invalid("Duplicated objects need unique new IDs that are not already on the board.")
+            }
+            let mapping = Dictionary(uniqueKeysWithValues: zip(ids, newIDs))
+            for item in board.items {
+                guard let newID = mapping[item.id] else { continue }
+                var copy = try BoardGeometry.translated(item, by: offset)
+                copy.id = newID
+                candidate.items.append(copy)
+            }
+        case .bringToFrontMany(let ids):
+            let selected = try selection(ids)
+            candidate.items = board.items.filter { !selected.contains($0.id) }
+                + board.items.filter { selected.contains($0.id) }
+        case .sendToBackMany(let ids):
+            let selected = try selection(ids)
+            candidate.items = board.items.filter { selected.contains($0.id) }
+                + board.items.filter { !selected.contains($0.id) }
         case .rename(let title):
             candidate.title = title
         }
@@ -82,6 +121,14 @@ public struct BoardHistory: Sendable {
     private func index(of id: UUID) throws -> Int {
         guard let index = board.items.firstIndex(where: { $0.id == id }) else { throw BoardError.missingItem }
         return index
+    }
+
+    private func selection(_ ids: [UUID]) throws -> Set<UUID> {
+        guard ids.count <= BoardValidation.maximumItems else { throw BoardError.invalid("A selection can contain at most 500 objects.") }
+        let selected = Set(ids)
+        guard selected.count == ids.count else { throw BoardError.invalid("A selection cannot repeat an object ID.") }
+        guard selected.isSubset(of: Set(board.items.map(\.id))) else { throw BoardError.missingItem }
+        return selected
     }
 
     private func checkRevision(_ expected: Int) throws {

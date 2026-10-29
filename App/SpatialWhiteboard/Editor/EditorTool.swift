@@ -34,7 +34,7 @@ enum EditorTool: String, CaseIterable, Identifiable {
 
     var hint: String {
         switch self {
-        case .select: return "Select an object, then drag to move it. Use the inspector for exact dimensions."
+        case .select: return "Select objects, then drag a selected object to move the selection. Use Select multiple to add or remove objects."
         case .pan: return "Drag to move around the board. Zoom and Fit keep your work in view."
         case .pen: return "Pinch and drag to draw a stroke. Release to add it to the board."
         case .rectangle, .ellipse, .arrow: return "Drag from one corner to another. Release to add the object."
@@ -58,6 +58,13 @@ struct ItemEditorContext: Identifiable {
     let id = UUID()
     let item: BoardItem
     let isNew: Bool
+    let stamp: EditStamp
+}
+
+struct SelectionMoveContext: Identifiable {
+    let id = UUID()
+    let ids: [UUID]
+    let bounds: BoardRect
     let stamp: EditStamp
 }
 

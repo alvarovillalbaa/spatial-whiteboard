@@ -82,3 +82,56 @@ struct ItemEditorSheet: View {
         if message == nil { dismiss() }
     }
 }
+
+@MainActor
+struct SelectionMoveSheet: View {
+    let context: SelectionMoveContext
+    let isEditable: Bool
+    let onApply: (BoardEdit, EditStamp) -> String?
+    @Environment(\.dismiss) private var dismiss
+    @State private var x: String
+    @State private var y: String
+    @State private var message: String?
+
+    init(context: SelectionMoveContext, isEditable: Bool, onApply: @escaping (BoardEdit, EditStamp) -> String?) {
+        self.context = context
+        self.isEditable = isEditable
+        self.onApply = onApply
+        _x = State(initialValue: String(context.bounds.x))
+        _y = State(initialValue: String(context.bounds.y))
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Selection position") {
+                    LabeledContent("Objects", value: String(context.ids.count))
+                    TextField("X", text: $x)
+                    TextField("Y", text: $y)
+                    Text("Move the selection's upper-left corner to these board coordinates. Objects keep their spacing and sizes. Every edge must stay between −100000 and 100000.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                if let message {
+                    Section { Text(message).foregroundStyle(.red).accessibilityLabel("Could not move selection: \(message)") }
+                }
+            }
+            .navigationTitle("Move \(context.ids.count) objects")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .confirmationAction) { Button("Move", action: apply).disabled(!isEditable) }
+            }
+        }
+        .frame(minWidth: 500, idealWidth: 540, minHeight: 360)
+    }
+
+    private func apply() {
+        guard isEditable else { message = "This document is read only."; return }
+        guard let x = Double(x), let y = Double(y), x.isFinite, y.isFinite else {
+            message = "Enter a finite number in each position field."
+            return
+        }
+        let offset = BoardPoint(x: x - context.bounds.x, y: y - context.bounds.y)
+        message = onApply(.move(ids: context.ids, offset: offset), context.stamp)
+        if message == nil { dismiss() }
+    }
+}

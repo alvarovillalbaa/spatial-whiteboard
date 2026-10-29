@@ -8,11 +8,17 @@ or device; this is not an installed or distributed application.
 
 Create or open a `.spatialboard` document through the native document browser.
 Use Pen, Rectangle, Ellipse, Arrow or Text to add content. Use Select to move an
-object, or choose it from the object list. The inspector edits its dimensions,
-position, text and style without requiring a precise canvas gesture.
+object, or choose it from the object list. Turn on **Select multiple** to add or
+remove members by tapping them on the canvas or in the list; Selection also
+offers Select All and Clear. Drag any selected member to move the selection.
+The inspector provides a native Move Selection form and duplicate, delete,
+bring-to-front and send-to-back actions for the complete selection. Select one
+object to edit its dimensions, text and style.
 
 Undo/redo applies to committed board edits. Pan, zoom and fit controls change
-the view. Native document saving is coordinated by the system. Native JSON
+the view. Batch edits commit once and undo together. Selection stays transient;
+it is not a saved group or a document-format change. Native document saving is
+coordinated by the system. Native JSON
 preserves editable objects and can reopen as this app's own-format JSON; SVG is
 a standalone visual export. Other JSON formats, including Excalidraw/tldraw
 documents, are not compatible.
@@ -57,6 +63,13 @@ UI, document-provider save/conflict handling, visionOS eye/pinch input and
 accessibility need actual platform checks. Syntax parsing alone proves none of
 those behaviors. The [native CI proposal](docs/proposals/native-checks.md) stays
 inactive until explicit approval.
+
+The [multi-selection source receipt](docs/results/2026/10-29/multi-selection.md)
+records the current batch editing and native control changes. Its separate
+[85-case/build proposal](docs/proposals/multi-selection-checks.md) prepares 69
+core cases and sixteen actual editor-state cases plus an unsigned visionOS
+Simulator build. Those checks are unrun; source parsing does not establish that
+the app compiles or behaves correctly on a device.
 
 ## Format and limits
 

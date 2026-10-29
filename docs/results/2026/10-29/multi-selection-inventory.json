@@ -1,0 +1,420 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "471e9a91140718def9976f8bb3883d5c03316968",
+  "status": "authored_unrun",
+  "approval": "pending",
+  "source_inventory_exclusion": "docs/results/",
+  "source_files": [
+    {
+      "path": ".codex/environments/environment.toml",
+      "bytes": 177,
+      "sha256": "8f574e5c91fdaeb7e05bf71a135fe409f23a8be389be9b03e91241f296676884"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 84,
+      "sha256": "840ca7cc2d0596602693b5d02659aa1f2fcb49719f77fc3e892c363bff33dfbd"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1301,
+      "sha256": "d94a4e5accd0b4ed4328cf50c5aee0b32f4abf933b6376dba64a38997af7996e"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Canvas/BoardCanvas.swift",
+      "bytes": 3460,
+      "sha256": "82bf99a159de0199716a479ef425b2718514991da3b662e5f55115c4c880d94e"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Canvas/BoardRenderer.swift",
+      "bytes": 4642,
+      "sha256": "9e983bd9f7c0d87154379acc68ee57bc08bb1db3df77ac924c55d7d991c197e5"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardInspector.swift",
+      "bytes": 6400,
+      "sha256": "1a22120ce6169ab28b2a09e9380e7d35a3998eb826c044aec952ab2529c4de44"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardTitleSheet.swift",
+      "bytes": 1690,
+      "sha256": "cb23934c95f7499b14d33fe1831e146592fe14b34fad31625a0336690a57c103"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/BoardToolbar.swift",
+      "bytes": 2211,
+      "sha256": "536fa098be627386311ed3631682d0a90e5acf19173d205fa76d9e3557c4b9ee"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/ItemEditorSheet.swift",
+      "bytes": 6256,
+      "sha256": "3db52aff3c0745f6add8ecc6c81126445088521b71a577a6b7e54554f1fb6fbe"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Controls/ObjectList.swift",
+      "bytes": 3994,
+      "sha256": "bbbdfe8aaace74aa837df207df588a4948b83d3e207e43602aceee70dcd13982"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Documents/BoardDocument.swift",
+      "bytes": 1024,
+      "sha256": "1d16f05e93234af9d7150de6bf070c5405e7a640f35a80172e5208a206567655"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Documents/ExportDocument.swift",
+      "bytes": 787,
+      "sha256": "b2788dc4d560e49892f0155c04b1f62460b667655609bc0da57a2d4fc20a4815"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/BoardEditor.swift",
+      "bytes": 8654,
+      "sha256": "358cacd57cef584176921b8533a5681af286959523d44e95601f58fab15c4623"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/CanvasGesture.swift",
+      "bytes": 5441,
+      "sha256": "858f555ab72b56749629357638a5ca3d3870a234d07bd57749e0c6d21b6ecae3"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/EditorState.swift",
+      "bytes": 6354,
+      "sha256": "2af9b0af8164d356b1b6ddb22db23d12af039275b4c6aa524d33548a32aa2f8d"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/EditorTool.swift",
+      "bytes": 2059,
+      "sha256": "ad21a938cd2d800694299c89d546df69a5a5df975033b250e06daf6c0280ebfc"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Editor/Viewport.swift",
+      "bytes": 1669,
+      "sha256": "e37d29ef0c5f90f9c6bc3ff7a993de1bac87123896d34b57c908ab3d8818a147"
+    },
+    {
+      "path": "App/SpatialWhiteboard/SpatialWhiteboardApp.swift",
+      "bytes": 290,
+      "sha256": "be617b5a4eddfde11e4ee21c100fbf144ef9664f43daf0b680e363c967bc3f08"
+    },
+    {
+      "path": "App/SpatialWhiteboard/Support/BoardPresentation.swift",
+      "bytes": 1675,
+      "sha256": "c2f921d672d1ee39b7b46d31c4d19b4814dc9701511d67daead5f2d6ee77d989"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1072,
+      "sha256": "7edafcd8ebca4ecabedfad6e3c3d4872ce0ef6b49c3658a8b6e644cfb884d32d"
+    },
+    {
+      "path": "Package.swift",
+      "bytes": 359,
+      "sha256": "c1a513f5265802644db27d6519152e581449623f77d5db51e27919e6544292e7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4495,
+      "sha256": "e7c6d68f9a3443f5c58a1ef0dd9a97e2ae878cb43cb48f44d080d854e901c49a"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Back.png",
+      "bytes": 4569,
+      "sha256": "a9f00875f72cdafd77440a41abda5979fa59462b16df9c6dcd9e9f12c62f2999"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Contents.json",
+      "bytes": 166,
+      "sha256": "cf8dca34b83d1d9b53f8c203741ad6660c8858c3255d3beb91c4d0f606a21a29"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Contents.json",
+      "bytes": 60,
+      "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Contents.json",
+      "bytes": 228,
+      "sha256": "ac801cf1cb4d95d25c81e44fc361f6edecd30921bb3aea77f9f5a1b523069601"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Contents.json",
+      "bytes": 167,
+      "sha256": "0392c28d46caa43bc8e7a69b016fd356b88b2e7910cd2047ecb805e07abbec30"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Front.png",
+      "bytes": 6095,
+      "sha256": "8e51168cad0dee18e3e5c069d8946c41b649afee60ad7b4511b13dda3dbf321f"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Contents.json",
+      "bytes": 60,
+      "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Contents.json",
+      "bytes": 168,
+      "sha256": "2bed3cfe6b24db54a883d48ade66893aabae10d79ef4c5377ba74b1b1618ea1b"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Middle.png",
+      "bytes": 6943,
+      "sha256": "80d3341d0a373d3cfcfbbe0ba963e5864d840a709e45cf9d15e512b74fa95aa9"
+    },
+    {
+      "path": "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Contents.json",
+      "bytes": 60,
+      "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f"
+    },
+    {
+      "path": "Resources/Assets.xcassets/Contents.json",
+      "bytes": 60,
+      "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f"
+    },
+    {
+      "path": "Resources/Info.plist",
+      "bytes": 2173,
+      "sha256": "348afa27a5cf35d291a19f89c8aa359c142415fff2e877d61fe07234062f973a"
+    },
+    {
+      "path": "Resources/PrivacyInfo.xcprivacy",
+      "bytes": 369,
+      "sha256": "8c1d2f5d78e61eada831b0e157e8bf5aee9f71d8be1041b469d96f0fd30a9a66"
+    },
+    {
+      "path": "Sources/BoardCore/BoardCodec.swift",
+      "bytes": 2754,
+      "sha256": "51a07d488e93853bbe8b7dcbdc4f94176024e34c72d8318adf4ddf07c3677287"
+    },
+    {
+      "path": "Sources/BoardCore/BoardGeometry.swift",
+      "bytes": 6463,
+      "sha256": "2fe4e94e0354d4aa0bc986bf2df734a4751582efd6b8477a8e90637efa3803b4"
+    },
+    {
+      "path": "Sources/BoardCore/BoardHistory.swift",
+      "bytes": 5982,
+      "sha256": "30df4f1f20d8f3a6e4a4d5a86ec23d42b80f4628887e779ad6609e36cb68bd0a"
+    },
+    {
+      "path": "Sources/BoardCore/BoardSVG.swift",
+      "bytes": 3789,
+      "sha256": "e59fc9113cdb0a50d6caca89245fe38f2530ab6f7026fa0c1cdbf5188f06740c"
+    },
+    {
+      "path": "Sources/BoardCore/JSONStructure.swift",
+      "bytes": 2723,
+      "sha256": "19c77eae8e2ed79ad0b2608288a86128e827bed90cf294dbef8a7f748bdea438"
+    },
+    {
+      "path": "Sources/BoardCore/Models.swift",
+      "bytes": 3587,
+      "sha256": "62b299382266380de92430bd7dbd58eb0ea49b4c4be551fd29e8e6c23da1110f"
+    },
+    {
+      "path": "Sources/BoardCore/Validation.swift",
+      "bytes": 3980,
+      "sha256": "79d190c728651f4264b9eb32c1bf251816509daf5ec8e9fa5d1069f0957c3a54"
+    },
+    {
+      "path": "SpatialWhiteboard.xcodeproj/project.pbxproj",
+      "bytes": 13369,
+      "sha256": "b10b9eb593b44e47c90ad66510f234f0076d74ed74ae647a9baf47e40276f8c9"
+    },
+    {
+      "path": "SpatialWhiteboard.xcodeproj/xcshareddata/xcschemes/SpatialWhiteboard.xcscheme",
+      "bytes": 2101,
+      "sha256": "298ea40f804093875a74880e0973eae38f93f32a537c9a29d1c35a20c69a7839"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardBatchEditingTests.swift",
+      "bytes": 14822,
+      "sha256": "9dde3c13d07f9e28cb10705b570d03c43bd9b7c8af9ad5e80ab08a35ed2344f7"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardCodecTests.swift",
+      "bytes": 11749,
+      "sha256": "9b281ee7fc0a9b59564993c1e681b8fc246c83108a4f5c58ab87efd6ea66f23a"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardFixtures.swift",
+      "bytes": 1982,
+      "sha256": "c165d9f26b1a7bfdb4ea3de3634531f4da01fd8741ba279093b6a06226f06d83"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardGeometrySVGTests.swift",
+      "bytes": 8441,
+      "sha256": "85afe11ba608611b035cb879801ed5ae711653df7d9aae10e8ecaafca850f1b9"
+    },
+    {
+      "path": "Tests/BoardCoreTests/BoardHistoryTests.swift",
+      "bytes": 9355,
+      "sha256": "a13e56f7d7d566d16227d241b83b8b86efe6df5d2c3a4db83c45a3589dc60227"
+    },
+    {
+      "path": "Tests/EditorChecks/MultiSelectionChecks.swift",
+      "bytes": 22177,
+      "sha256": "163b14a844cb17d09e2f79dd2bc9eec462a201ce266a9781102c0a29130d00b4"
+    },
+    {
+      "path": "artwork/app-icon/Back.svg",
+      "bytes": 295,
+      "sha256": "d080773b35d584287ec6f83472f41760b958702942ea1b6b648c811af59fcef4"
+    },
+    {
+      "path": "artwork/app-icon/Front.svg",
+      "bytes": 529,
+      "sha256": "9b3f73368ce779b2760a42ded5ec3f1cc6533f97abd6091bc3447dd660cc28f1"
+    },
+    {
+      "path": "artwork/app-icon/Middle.svg",
+      "bytes": 291,
+      "sha256": "387bf05791f34f92230bd6ad4b0e72b111c44d69f3f97cd7656a7c917e1b7171"
+    },
+    {
+      "path": "artwork/app-icon/Preview.png",
+      "bytes": 8494,
+      "sha256": "906dd731eb414e58867fd779218c3d389eeae4db29b715ffee2fcb42eb72d5ee"
+    },
+    {
+      "path": "docs/architecture.md",
+      "bytes": 3596,
+      "sha256": "2fc89a743905ed3cd842d7dacd5a8033887d1de254c808ebf1f7a71a2ecd780d"
+    },
+    {
+      "path": "docs/examples/multi-selection-checks.workflow.yml",
+      "bytes": 8567,
+      "sha256": "1c20e0700b5d87cf97600c2f3f4270e37a8171cd0bee4db58c4b3d113177f2a3"
+    },
+    {
+      "path": "docs/proposals/multi-selection-checks.md",
+      "bytes": 4486,
+      "sha256": "11bf57abd90589cd06f0ce1f4b2bb3e61f9fbd72a587cb613e412b88421a08e8"
+    },
+    {
+      "path": "docs/proposals/native-checks-ci.yml.example",
+      "bytes": 1258,
+      "sha256": "6eb85ee6df8a1dd7b2e1b9880e5747fb7b36d03ee9131858aefa1a9002997a52"
+    },
+    {
+      "path": "docs/proposals/native-checks.md",
+      "bytes": 2724,
+      "sha256": "0f363526ab37cd4e044c82e788423de11cdff2df9ebc376d09e0b973e589a94f"
+    },
+    {
+      "path": "docs/specs/core-contract.md",
+      "bytes": 5554,
+      "sha256": "828985f0d3ba8cdc3cd3d6c3f2ef36750f82be8b943978a3e92995d053fd0768"
+    },
+    {
+      "path": "docs/specs/product.md",
+      "bytes": 1815,
+      "sha256": "2ebd0928aafc0d53405eb6a1f59b1e2d88cad53716ffb7b7cdda953b2327b071"
+    },
+    {
+      "path": "script/check_native.sh",
+      "bytes": 1146,
+      "sha256": "5e98c31ac646a1e8a579e1aa20b774f6b16941e192b12bb38df25b0069f70717"
+    },
+    {
+      "path": "script/check_selection_editor.sh",
+      "bytes": 3570,
+      "sha256": "73245ca3b16e6cc1427e9d5aa8760b0520a3dc316bd15c3b00e9fcf03f34d1a3"
+    },
+    {
+      "path": "script/render_app_icon.py",
+      "bytes": 7452,
+      "sha256": "4bdba536a16700b77acfdaabbd41cfbb268c2bdbc5feaa17e3a68c9e69d1185e"
+    }
+  ],
+  "core_case_names": [
+    "BoardBatchEditingTests.testTranslatedItemPreservesPayloadAndRejectsInvalidGeometry",
+    "BoardBatchEditingTests.testMoveSelectionPreservesRelativePositionsAndNormalizedPayload",
+    "BoardBatchEditingTests.testMoveSupportsFiniteFullPlaneOffsets",
+    "BoardBatchEditingTests.testBatchTranslationFailuresPreserveTheWholeBoardAndRedo",
+    "BoardBatchEditingTests.testBatchSelectionRejectsMissingAndRepeatedIDs",
+    "BoardBatchEditingTests.testDuplicateSelectionUsesExplicitMappingAndOriginalZOrder",
+    "BoardBatchEditingTests.testDuplicateSelectionRejectsCardinalityAndCollidingIDs",
+    "BoardBatchEditingTests.testDuplicateSelectionObjectLimitPreservesRedo",
+    "BoardBatchEditingTests.testDuplicateSelectionPointLimitPreservesBoardAndHistory",
+    "BoardBatchEditingTests.testBatchCandidateMustFitEncodedByteCap",
+    "BoardBatchEditingTests.testDeleteSelectionIsOneUndoableRevision",
+    "BoardBatchEditingTests.testFrontBackStablePartitionsBothCohorts",
+    "BoardBatchEditingTests.testEmptyAndAlreadyAppliedSelectionsPreserveRedoAndRevision",
+    "BoardBatchEditingTests.testInvalidOffsetsRejectEvenEmptySelections",
+    "BoardBatchEditingTests.testStaleBatchCommandsDoNotMutateBoardOrStacks",
+    "BoardBatchEditingTests.testRevisionOverflowIsAtomicWhileNoOpsStillSucceed",
+    "BoardCodecTests.testDefaultBoardRoundTripsWithoutInventedObjects",
+    "BoardCodecTests.testEveryKindAndInkRoundTrips",
+    "BoardCodecTests.testVersionAndRevisionAreStrictAndMaximumRevisionSurvives",
+    "BoardCodecTests.testTitleCharacterAndByteBounds",
+    "BoardCodecTests.testTextCharacterByteAndXMLScalarBounds",
+    "BoardCodecTests.testFrameCoordinateAndDimensionBounds",
+    "BoardCodecTests.testStyleNumbersAreFiniteAndBounded",
+    "BoardCodecTests.testKindPayloadsCannotBeMixed",
+    "BoardCodecTests.testPointNormalizationAndPerStrokeLimit",
+    "BoardCodecTests.testBoardItemAndTotalPointLimits",
+    "BoardCodecTests.testDuplicateObjectIDsRejectTheWholeDocument",
+    "BoardCodecTests.testUnknownFieldsAtEveryRecordDepthAreRejected",
+    "BoardCodecTests.testDuplicateRootFieldsCannotHideData",
+    "BoardCodecTests.testEscapedEquivalentAndNestedDuplicateKeysReject",
+    "BoardCodecTests.testRepeatedKeysInSeparateObjectsAndQuotedTextAreValid",
+    "BoardCodecTests.testUTF8BOMIsOptional",
+    "BoardCodecTests.testInvalidUTF8RawNULAndUTF16Or32AreRejected",
+    "BoardCodecTests.testInputByteLimitAcceptsExactCapAndRejectsOneMoreByte",
+    "BoardCodecTests.testEncodeRejectsCumulativeOversizeDespiteValidIndividualTexts",
+    "BoardCodecTests.testNestingIsBoundedBeforeFoundationParsing",
+    "BoardCodecTests.testMalformedIncompleteAndTrailingJSONReject",
+    "BoardCodecTests.testMissingNullBooleanAndUnknownEnumValuesReject",
+    "BoardCodecTests.testNonfiniteJSONNumberAndInvalidDecodedStateReject",
+    "BoardCodecTests.testFailedDecodeLeavesSuppliedBytesUnchanged",
+    "BoardGeometrySVGTests.testReverseDragNormalizesShapeFrame",
+    "BoardGeometrySVGTests.testReverseArrowRetainsEndpointDirection",
+    "BoardGeometrySVGTests.testShapeMinimumSizesAndTextFrame",
+    "BoardGeometrySVGTests.testStrokeNormalizesWorldPointsAndSupportsHorizontalOrDotStrokes",
+    "BoardGeometrySVGTests.testGeometryRejectsInvalidInputsInsteadOfClamping",
+    "BoardGeometrySVGTests.testLineHitTestingUsesSegmentProximityInsteadOfBoundingBox",
+    "BoardGeometrySVGTests.testArrowHeadWingsAreSelectableAndShareRenderingGeometry",
+    "BoardGeometrySVGTests.testRectangleTextAndEllipseHitTesting",
+    "BoardGeometrySVGTests.testHitTestingRejectsNonfiniteOrNegativeToleranceAndPoints",
+    "BoardGeometrySVGTests.testBoundsUnionIsOptionalAndRejectsInvalidObjects",
+    "BoardGeometrySVGTests.testStandaloneSVGContainsEveryKindAndStablePalette",
+    "BoardGeometrySVGTests.testSVGTitleAndTextCannotInjectMarkupOrExternalReferences",
+    "BoardGeometrySVGTests.testSVGNewlinesAreExplicitClippedLinesAndEmptyBoardHasViewBox",
+    "BoardGeometrySVGTests.testSVGViewBoxIncludesArrowAndStrokePadding",
+    "BoardGeometrySVGTests.testSVGRejectsInvalidStateWithoutProducingPartialExport",
+    "BoardHistoryTests.testAddReplaceDeleteAndUndoRedoPreserveContentWithNewRevisions",
+    "BoardHistoryTests.testDuplicatePreservesPayloadAndOffsetsOnlyFrame",
+    "BoardHistoryTests.testFrontAndBackRespectObjectOrder",
+    "BoardHistoryTests.testStalePerformUndoAndRedoAreAtomic",
+    "BoardHistoryTests.testInvalidEditDoesNotMutateBoardOrDiscardRedo",
+    "BoardHistoryTests.testNoOpEditsPreserveRevisionAndHistory",
+    "BoardHistoryTests.testNewEditAfterUndoDiscardsOnlyRedoBranch",
+    "BoardHistoryTests.testHistoryRetainsTwentyStatesAcrossBothStacks",
+    "BoardHistoryTests.testMissingIDsAndDuplicateIDsFailTransactionally",
+    "BoardHistoryTests.testInvalidDuplicateOffsetCannotMoveObjectsOutOfBounds",
+    "BoardHistoryTests.testRevisionOverflowPreservesBoardAndStacksWhileNoOpSucceeds",
+    "BoardHistoryTests.testEmptyHistoryAndInvalidInitializationThrow",
+    "BoardHistoryTests.testFinalRevisionGrowthCannotPushAnEditBeyondEncodedCap",
+    "BoardHistoryTests.testUndoAndRedoValidateRestoredContentAtItsNewRevision"
+  ],
+  "editor_case_names": [
+    "single selection exposes one item without editing the board",
+    "multiple list selection toggles membership in board order",
+    "select all and clear remain transient selection actions",
+    "unknown selection IDs cannot replace a valid selection",
+    "selected members move in one editor transaction",
+    "batch forms reject changed selection with an unchanged document stamp",
+    "batch duplication selects fresh copies in original z-order",
+    "batch deletion clears its selected cohort and keeps unrelated objects",
+    "batch arrangement preserves selected identity and relative order",
+    "external board changes clear selection and cancel captured drafts",
+    "history notification invalidates drafts even at the same saved revision",
+    "a multi-selection tap removes only the tapped member",
+    "tap selection can add a member and clear on empty space",
+    "a latched drag returning to origin preserves selection without an edit",
+    "completed group drag returns one move and waits for explicit commit",
+    "read-only and invalidated movement drafts cannot commit"
+  ],
+  "expected_cases": 85,
+  "verification_limits": "Syntax only. No typecheck, native build, test execution, app launch, simulator or device checks."
+}

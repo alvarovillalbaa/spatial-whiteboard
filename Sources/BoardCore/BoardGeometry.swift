@@ -1,6 +1,20 @@
 import Foundation
 
 public enum BoardGeometry {
+    public static func translated(_ item: BoardItem, by offset: BoardPoint) throws -> BoardItem {
+        try validateTranslation(offset)
+        try BoardValidation.item(item)
+        var translated = item
+        translated.frame.x += offset.x
+        translated.frame.y += offset.y
+        try BoardValidation.item(translated)
+        return translated
+    }
+
+    static func validateTranslation(_ offset: BoardPoint) throws {
+        guard offset.x.isFinite, offset.y.isFinite else { throw BoardError.invalid("Movement offsets must be finite.") }
+    }
+
     public static func shape(id: UUID = UUID(), kind: BoardKind, from: BoardPoint, to: BoardPoint, style: BoardStyle = BoardStyle(), text: String = "") throws -> BoardItem {
         try BoardValidation.point(from)
         try BoardValidation.point(to)
