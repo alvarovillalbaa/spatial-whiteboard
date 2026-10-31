@@ -69,7 +69,7 @@ enum BoardRenderer {
             let text = item.text.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n")
             for (index, line) in text.components(separatedBy: "\n").enumerated() {
                 let resolved = textContext.resolve(Text(line).font(.system(size: item.style.fontSize)).foregroundColor(color))
-                let proposal = CGSize(width: .greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
+                let proposal = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
                 let baseline = resolved.firstBaseline(in: proposal)
                 let y = item.frame.y + item.style.fontSize + Double(index) * item.style.fontSize * 1.25 - Double(baseline)
                 textContext.draw(resolved, at: CGPoint(x: item.frame.x, y: y), anchor: .topLeading)

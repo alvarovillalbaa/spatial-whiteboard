@@ -23,7 +23,7 @@ jobs:
         run: '[[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]'
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ env.SOURCE_COMMIT }}
           persist-credentials: false
           fetch-depth: 1
       - name: Verify complete source inventory
@@ -31,7 +31,7 @@ jobs:
           python3 - <<'PY'
           import hashlib,json,os,pathlib,subprocess
           assert subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()==os.environ["SOURCE_COMMIT"]
-          seal=json.loads(pathlib.Path("docs/results/2026/10-29/multi-selection-inventory.json").read_text())
+          seal=json.loads(pathlib.Path("docs/results/2026/10-31/multi-selection-repaired-inventory.json").read_text())
           tracked=subprocess.check_output(["git","ls-files","-z"]).decode().split("\0")
           actual={p for p in tracked if p and not p.startswith("docs/results/")}
           assert actual=={e["path"] for e in seal["source_files"]},"Source file set changed"
@@ -65,7 +65,7 @@ jobs:
           git diff --check
       - name: Run 69 core cases
         run: |
-          swift test --scratch-path "$SPATIAL_CHECK_DIR/core-build" \
+          swift test --parallel --num-workers 1 --scratch-path "$SPATIAL_CHECK_DIR/core-build" \
             --xunit-output "$SPATIAL_CHECK_DIR/core-results.xml" \
             > "$SPATIAL_CHECK_DIR/core.log" 2>&1
       - name: Run 16 actual editor cases without an app window
@@ -79,12 +79,31 @@ jobs:
             -destination 'generic/platform=visionOS Simulator' \
             -derivedDataPath "$SPATIAL_CHECK_DIR/derived" CODE_SIGNING_ALLOWED=NO build \
             > "$SPATIAL_CHECK_DIR/visionos-build.log" 2>&1
+      - name: Print bounded build diagnostic after failure
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,re
+          value=os.environ.get("SPATIAL_CHECK_DIR")
+          path=pathlib.Path(value)/"visionos-build.log" if value else None
+          if path is None or not path.is_file() or path.is_symlink():
+              print("No build log was produced; inspect the failed earlier step.")
+          else:
+              with path.open("rb") as stream:
+                  prefix=stream.read(1048576).decode("utf-8","replace")
+                  stream.seek(max(0,path.stat().st_size-4096))
+                  tail=stream.read(4096).decode("utf-8","replace")
+              errors="\n".join(line for line in prefix.splitlines() if "error:" in line or "BUILD FAILED" in line)
+              excerpt=errors[:12000]+"\n--- build tail ---\n"+tail
+              excerpt=re.sub(r"https?://\S+","[URL omitted]",excerpt)
+              print(excerpt.encode("utf-8")[:16384].decode("utf-8","ignore"))
+          PY
       - name: Verify exact cases and unchanged source
         run: |
           python3 - <<'PY'
           import hashlib,json,os,pathlib,xml.etree.ElementTree as ET
           root=pathlib.Path(os.environ["SPATIAL_CHECK_DIR"])
-          inventory=pathlib.Path("docs/results/2026/10-29/multi-selection-inventory.json")
+          inventory=pathlib.Path("docs/results/2026/10-31/multi-selection-repaired-inventory.json")
           seal=json.loads(inventory.read_text())
           for entry in seal["source_files"]:
               data=pathlib.Path(entry["path"]).read_bytes()
@@ -111,7 +130,10 @@ jobs:
               "inventory_sha256":hashlib.sha256(inventory.read_bytes()).hexdigest(),
               "core_xml_sha256":hashlib.sha256(xml).hexdigest(),
               "editor_json_sha256":hashlib.sha256(editor_bytes).hexdigest()}
-          (root/"report.json").write_text(json.dumps(report,indent=2)+"\n")
+          report_bytes=(json.dumps(report,indent=2)+"\n").encode("utf-8")
+          assert len(report_bytes)<=16384,"Summary report exceeded stdout limit"
+          (root/"report.json").write_bytes(report_bytes)
+          print(report_bytes.decode("utf-8"),end="")
           PY
       - name: Bound evidence and remove owned build scratch
         if: always()

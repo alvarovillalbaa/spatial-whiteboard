@@ -1,16 +1,18 @@
-# Multi-selection native checks, pending approval
+# Multi-selection native checks
 
-29 October 2026. **Prepared source only; none of these checks has run.**
-This is a separate scope from the older pending native/icon proposal.
-The [source receipt](../results/2026/10-29/multi-selection.md) and
-[inventory](../results/2026/10-29/multi-selection-inventory.json) identify the
-authored source and exact case names.
+Revised 31 October 2026. The owner's current blanket approval and instruction
+to keep going authorize this prepared packet and its temporary CI. Historical
+29 October pending/unrun receipts describe the earlier checkpoint.
+The [first attempt and diagnostic](../results/2026/10-31/multi-selection-checks-attempt1.md)
+record a failed unsigned build, sixteen verified editor cases and missing core
+xUnit output. The [repaired inventory](../results/2026/10-31/multi-selection-repaired-inventory.json)
+seals the corrected source and the same exact 85 case names; it does not replace
+the historical 29 October inventory.
 
 ## Proposed execution
 
-After explicit approval under the supplied AGENTS.md sections 7 and 14, install
-the [inactive workflow](../examples/multi-selection-checks.workflow.yml)
-temporarily in this public repository. Dispatch it against the exact published
+Install the [inactive workflow](../examples/multi-selection-checks.workflow.yml)
+temporarily in this public repository under that approval. Run it against the exact published
 40-character source commit, using one standard public macos-15 job capped at
 20 minutes, contents-read permission and no retained checkout credentials.
 No larger/paid runner is proposed.
@@ -36,6 +38,12 @@ Viewport and BoardPresentation source. Its manually captured drafts cannot
 prove physical gesture delivery, SwiftUI rendering, native UndoManager
 integration, document saving or visionOS accessibility.
 
+The repaired core command uses `swift test --parallel --num-workers 1` with the
+same target and cases. [SwiftPM 6.1.2's XCTest reporter](https://github.com/swiftlang/swift-package-manager/blob/swift-6.1.2-RELEASE/Sources/Commands/SwiftTestCommand.swift#L284)
+generates xUnit output through that runner; one worker keeps execution serial.
+The renderer repair explicitly types `CGSize`'s maximum proposal as `CGFloat`,
+resolving the actual visionOS compilation error without changing its value.
+
 The same job builds the existing app target unsigned:
 
 ~~~sh
@@ -57,6 +65,12 @@ The workflow checks shell/property-list/project metadata and whitespace, runs
 JSON, then builds the target. All stages must succeed. It rechecks source
 hashes, exact names and zero failure/error/skip counts before reporting success.
 It preserves failures; an unrun or skipped stage cannot be called a pass.
+After all checks pass, the verified JSON report is also printed to stdout,
+capped at 16 KiB. On failure, a separate optional diagnostic prints at most
+16 KiB of build errors/tail, so retrieving a ZIP is not required to see the
+compiler error. These are explicit controller changes from the first attempt;
+checkout also uses the same `SOURCE_COMMIT` as the HEAD guard. The unsigned
+build, case assertions, source guards and cleanup remain required.
 
 Only explicit text logs, XML, JSON and an artifact manifest are uploaded, with
 seven-day retention. Each is capped at 1 MiB; an oversized file is truncated,
@@ -73,8 +87,7 @@ failure receipt; additional cases, runner scope or execution need new approval.
 Hard runner termination can prevent cleanup or artifact upload and must remain
 an explicit incomplete result.
 
-Local native execution remains blocked: the latest preflight reported
-29.3 GiB free against 38.0 GiB required, and the selected developer directory is
-Command Line Tools. No local build, tests or simulator action bypasses that
+Local native execution remains blocked by the workspace Storage Guard; the
+selected developer directory is Command Line Tools. No local build, tests or simulator action bypasses that
 boundary. Even a successful proposed job leaves actual save/reopen/conflicts,
 visionOS input, visual/accessibility acceptance and device/distribution open.

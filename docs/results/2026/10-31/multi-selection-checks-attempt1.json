@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "status": "failed",
+  "scope": "Prepared 69 BoardCore and 16 app-less editor checks, followed by an unsigned visionOS Simulator build.",
+  "authorization": "Owner's current blanket approval and instruction to keep going cover this prepared packet and temporary CI.",
+  "sourceCommit": "2132cec889f474c3769520d285223345c1948a74",
+  "activationCommit": "c96d75cd9d075a8a4d20dcac5c440998fc43c107",
+  "workflow": {
+    "path": ".github/workflows/multi-selection-checks.yml",
+    "sha256": "e567ec869bf48f587046e21902e1f1df60e7f29f5416eca4ac59c8bb42436a8a",
+    "runner": "macos-15",
+    "timeoutMinutes": 20,
+    "activationDelta": [
+      "Push on main restricted to this workflow path, with approved source fallback when manual input is absent.",
+      "Checkout uses the same SOURCE_COMMIT variable as the immutable HEAD guard; test/build/cleanup run bodies are unchanged."
+    ]
+  },
+  "run": {
+    "id": 41235824709,
+    "attempt": 1,
+    "url": "https://github.com/alvarovillalbaa/spatial-whiteboard/actions/runs/41235824709",
+    "jobId": 124639280545,
+    "startedAt": "2026-10-31T19:47:06Z",
+    "updatedAt": "2026-10-31T19:48:49Z",
+    "status": "completed",
+    "conclusion": "failure"
+  },
+  "observations": {
+    "sourceInventoryPrecheck": "passed: 64 sealed inputs",
+    "installedSimulatorSdkCheck": "passed",
+    "staticChecks": "passed",
+    "core69Step": "success",
+    "editor16Step": "success; all 16 exact case names subsequently verified in the diagnostic job",
+    "unsignedBuild": "failed",
+    "buildExitCode": 65,
+    "exactCaseAndPostSourceVerification": "skipped after build failure",
+    "ownedScratchCleanup": "success",
+    "boundedArtifactUpload": "success",
+    "overall85AndBuildPass": false
+  },
+  "artifact": {
+    "id": 13055326086,
+    "name": "spatial-multi-selection-evidence",
+    "zipBytes": 12291,
+    "providerSha256": "8fc213f8080323a1ed2a04abbf4ba2afb7bfc46cdf2e715a6377b076f04e0436",
+    "url": "https://github.com/alvarovillalbaa/spatial-whiteboard/actions/runs/41235824709/artifacts/13055326086",
+    "expiresAt": "2026-11-07T19:48:44Z",
+    "contentsInspected": "Verified in diagnostic-only CI; no artifact ZIP bytes were retrieved locally.",
+    "manifest": {
+      "source_commit": "2132cec889f474c3769520d285223345c1948a74",
+      "files": [
+        {
+          "path": "toolchain.log",
+          "original_bytes": 1126,
+          "retained_bytes": 1126,
+          "sha256": "9d1a5cefe19015b382a2d9d9072e3fb3cbf2dd508a9345ac9bded9af9a1f32c4",
+          "truncated": false
+        },
+        {
+          "path": "core.log",
+          "original_bytes": 18252,
+          "retained_bytes": 18252,
+          "sha256": "7da864b7637b2dee03ef584ca3918d2ffba103dc3e68d8b5ae7024435bd0b034",
+          "truncated": false
+        },
+        {
+          "path": "editor-results.json",
+          "original_bytes": 2420,
+          "retained_bytes": 2420,
+          "sha256": "c4c5eb43efa7df53f89df92f6747d6317d4c11135de6fe5176f42359408b60f2",
+          "truncated": false
+        },
+        {
+          "path": "editor.log",
+          "original_bytes": 306,
+          "retained_bytes": 306,
+          "sha256": "32e4fd1d3eb62b77638759f93a828d166d9cdb19fcc25089e68473e10bbc043b",
+          "truncated": false
+        },
+        {
+          "path": "visionos-build.log",
+          "original_bytes": 146623,
+          "retained_bytes": 146623,
+          "sha256": "c77432f9b23af8383c155b220ff0975e4da17f83aff6eac22f1f19833b0cbb38",
+          "truncated": false
+        }
+      ],
+      "overflow": false
+    }
+  },
+  "limits": [
+    "The original run remains failed; its exact-case/post-source verifier was skipped. The original core xUnit file is absent, so the successful core step does not independently establish all 69 case identities here.",
+    "The diagnostic job verified the original ZIP/provider digest and every manifest file's size/hash, with no truncation. It verified the exact sixteen editor case names; it did not rerun product code or turn the failed build into a pass.",
+    "A first local retrieval of the official signed artifact link failed DNS resolution (socket.gaierror Errno 8). Artifact inspection subsequently succeeded through the separate approved diagnostic job.",
+    "The renderer now has a source-only explicit CGFloat correction, awaiting the same 85-case/build rerun. SwiftPM 6.1.2 generates XCTest xUnit output only in its parallel runner; the corrected packet needs --parallel --num-workers 1 to retain one worker and produce evidence.",
+    "No app launch, simulator boot, signing identity, SDK install, local native build, model/provider call or paid enrollment occurred. Actual native input, rendering, undo/document handling and distribution remain open."
+  ],
+  "diagnostic": {
+    "runId": 41236548916,
+    "jobId": 124641431830,
+    "url": "https://github.com/alvarovillalbaa/spatial-whiteboard/actions/runs/41236548916",
+    "workflowCommit": "552028c9a53007ad0b22d890152c82c0886db1fb",
+    "conclusion": "success",
+    "scope": "Read the existing bounded artifact only; no product checkout or execution.",
+    "coreEvidence": {
+      "status": "missing"
+    },
+    "editorEvidence": {
+      "status": "verified",
+      "passed": 16,
+      "failures": 0,
+      "exactCaseNamesMatched": true
+    },
+    "toolchain": {
+      "os": "macOS 15.8.2",
+      "architecture": "arm64",
+      "swift": "6.1.2",
+      "xcode": "16.4 (16F6)",
+      "visionosSimulatorSdk": "2.5"
+    },
+    "buildError": {
+      "path": "App/SpatialWhiteboard/Canvas/BoardRenderer.swift",
+      "line": 72,
+      "column": 47,
+      "message": "ambiguous use of 'greatestFiniteMagnitude'"
+    },
+    "ownedCleanup": "success"
+  }
+}
