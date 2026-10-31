@@ -1,0 +1,11 @@
+# Multi-selection native checks — passed
+
+[Run 41237215207](https://github.com/alvarovillalbaa/spatial-whiteboard/actions/runs/41237215207) passed **85/85 checks** and the **unsigned visionOS Simulator build** on 31 October 2026. The final verifier matched all 69 core and sixteen editor case names, rejected failures/errors/skips, and rechecked all 64 sealed source inputs. Owned scratch cleanup, evidence bounds and upload succeeded. Only the optional failure-diagnostic step was skipped.
+
+Tested source: `215f1a9f2e109632131759f97d3ce0d366757f76`; activation: `7934c0184ebca14f887cf855d3101540aef265d9`. The [repaired inventory](multi-selection-repaired-inventory.json) has SHA-256 `f0e99e71aebdeef163c2be8a86d44626b839a489ab2fa28d1690357dfb3bf24a`. The public `macos-15` job ran from 20:05:08 to 20:08:58 UTC under its 20-minute cap. Its observed image was macos-15-arm64 20261028.0489.1 / macOS 15.8.2; the toolchain/installed-SDK check passed and its detailed log is retained in the artifact.
+
+The [first failure and diagnostic](multi-selection-checks-attempt1.md) remain preserved. The actual renderer error was fixed by explicitly using `CGFloat.greatestFiniteMagnitude`. The same 69 core cases now use `--parallel --num-workers 1` to produce XCTest xUnit evidence. No cases were added or removed. The controller also prints bounded success/failure evidence. Both temporary workflows are removed by the repair/evidence packets.
+
+The [18,898-byte artifact](https://github.com/alvarovillalbaa/spatial-whiteboard/actions/runs/41237215207/artifacts/13056192993) has GitHub-reported ZIP SHA-256 `94c70b951f6d80b9c5899bbb3aee1e1de67f576d91bee244e3dfdc5422502937`. The [JSON receipt](multi-selection-checks.json) retains the verified stdout report, exact names, source/result hashes and all run identities. This receipt does not claim a separate local download of that ZIP.
+
+No app launch, simulator boot, physical device, signing identity, account, store submission or paid enrollment occurred. Actual visionOS input, rendered appearance/accessibility, native undo, document saving/reopening/conflicts and distribution remain open. This closes the prepared native packet, not the full application or Excalidraw/TL;DW scope.
