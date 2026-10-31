@@ -1,0 +1,116 @@
+# Temporary diagnostic of an existing CI artifact; no product checkout or execution.
+name: Spatial native build diagnostic
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/native-diagnostic.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Create owned temporary evidence directory
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,tempfile
+          base=pathlib.Path(os.environ["RUNNER_TEMP"]).resolve()
+          root=pathlib.Path(tempfile.mkdtemp(prefix="spatial-diagnostic.",dir=base))
+          state=root.stat()
+          (root/"owner.json").write_text(json.dumps({"device":state.st_dev,"inode":state.st_ino}))
+          with open(os.environ["GITHUB_ENV"],"a") as env:
+              env.write("SPATIAL_DIAGNOSTIC_DIR="+str(root)+"\n")
+          PY
+      - name: Download only the existing failed-run artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          artifact-ids: '13055326086'
+          repository: alvarovillalbaa/spatial-whiteboard
+          run-id: '41235824709'
+          github-token: ${{ github.token }}
+          path: ${{ env.SPATIAL_DIAGNOSTIC_DIR }}/artifact
+          merge-multiple: true
+          skip-decompress: true
+          digest-mismatch: error
+      - name: Verify existing evidence and print bounded diagnostic
+        run: |
+          python3 - <<'PY'
+          import hashlib,io,json,os,pathlib,re,stat,zipfile,xml.etree.ElementTree as ET
+          expected={"core":["BoardBatchEditingTests.testTranslatedItemPreservesPayloadAndRejectsInvalidGeometry","BoardBatchEditingTests.testMoveSelectionPreservesRelativePositionsAndNormalizedPayload","BoardBatchEditingTests.testMoveSupportsFiniteFullPlaneOffsets","BoardBatchEditingTests.testBatchTranslationFailuresPreserveTheWholeBoardAndRedo","BoardBatchEditingTests.testBatchSelectionRejectsMissingAndRepeatedIDs","BoardBatchEditingTests.testDuplicateSelectionUsesExplicitMappingAndOriginalZOrder","BoardBatchEditingTests.testDuplicateSelectionRejectsCardinalityAndCollidingIDs","BoardBatchEditingTests.testDuplicateSelectionObjectLimitPreservesRedo","BoardBatchEditingTests.testDuplicateSelectionPointLimitPreservesBoardAndHistory","BoardBatchEditingTests.testBatchCandidateMustFitEncodedByteCap","BoardBatchEditingTests.testDeleteSelectionIsOneUndoableRevision","BoardBatchEditingTests.testFrontBackStablePartitionsBothCohorts","BoardBatchEditingTests.testEmptyAndAlreadyAppliedSelectionsPreserveRedoAndRevision","BoardBatchEditingTests.testInvalidOffsetsRejectEvenEmptySelections","BoardBatchEditingTests.testStaleBatchCommandsDoNotMutateBoardOrStacks","BoardBatchEditingTests.testRevisionOverflowIsAtomicWhileNoOpsStillSucceed","BoardCodecTests.testDefaultBoardRoundTripsWithoutInventedObjects","BoardCodecTests.testEveryKindAndInkRoundTrips","BoardCodecTests.testVersionAndRevisionAreStrictAndMaximumRevisionSurvives","BoardCodecTests.testTitleCharacterAndByteBounds","BoardCodecTests.testTextCharacterByteAndXMLScalarBounds","BoardCodecTests.testFrameCoordinateAndDimensionBounds","BoardCodecTests.testStyleNumbersAreFiniteAndBounded","BoardCodecTests.testKindPayloadsCannotBeMixed","BoardCodecTests.testPointNormalizationAndPerStrokeLimit","BoardCodecTests.testBoardItemAndTotalPointLimits","BoardCodecTests.testDuplicateObjectIDsRejectTheWholeDocument","BoardCodecTests.testUnknownFieldsAtEveryRecordDepthAreRejected","BoardCodecTests.testDuplicateRootFieldsCannotHideData","BoardCodecTests.testEscapedEquivalentAndNestedDuplicateKeysReject","BoardCodecTests.testRepeatedKeysInSeparateObjectsAndQuotedTextAreValid","BoardCodecTests.testUTF8BOMIsOptional","BoardCodecTests.testInvalidUTF8RawNULAndUTF16Or32AreRejected","BoardCodecTests.testInputByteLimitAcceptsExactCapAndRejectsOneMoreByte","BoardCodecTests.testEncodeRejectsCumulativeOversizeDespiteValidIndividualTexts","BoardCodecTests.testNestingIsBoundedBeforeFoundationParsing","BoardCodecTests.testMalformedIncompleteAndTrailingJSONReject","BoardCodecTests.testMissingNullBooleanAndUnknownEnumValuesReject","BoardCodecTests.testNonfiniteJSONNumberAndInvalidDecodedStateReject","BoardCodecTests.testFailedDecodeLeavesSuppliedBytesUnchanged","BoardGeometrySVGTests.testReverseDragNormalizesShapeFrame","BoardGeometrySVGTests.testReverseArrowRetainsEndpointDirection","BoardGeometrySVGTests.testShapeMinimumSizesAndTextFrame","BoardGeometrySVGTests.testStrokeNormalizesWorldPointsAndSupportsHorizontalOrDotStrokes","BoardGeometrySVGTests.testGeometryRejectsInvalidInputsInsteadOfClamping","BoardGeometrySVGTests.testLineHitTestingUsesSegmentProximityInsteadOfBoundingBox","BoardGeometrySVGTests.testArrowHeadWingsAreSelectableAndShareRenderingGeometry","BoardGeometrySVGTests.testRectangleTextAndEllipseHitTesting","BoardGeometrySVGTests.testHitTestingRejectsNonfiniteOrNegativeToleranceAndPoints","BoardGeometrySVGTests.testBoundsUnionIsOptionalAndRejectsInvalidObjects","BoardGeometrySVGTests.testStandaloneSVGContainsEveryKindAndStablePalette","BoardGeometrySVGTests.testSVGTitleAndTextCannotInjectMarkupOrExternalReferences","BoardGeometrySVGTests.testSVGNewlinesAreExplicitClippedLinesAndEmptyBoardHasViewBox","BoardGeometrySVGTests.testSVGViewBoxIncludesArrowAndStrokePadding","BoardGeometrySVGTests.testSVGRejectsInvalidStateWithoutProducingPartialExport","BoardHistoryTests.testAddReplaceDeleteAndUndoRedoPreserveContentWithNewRevisions","BoardHistoryTests.testDuplicatePreservesPayloadAndOffsetsOnlyFrame","BoardHistoryTests.testFrontAndBackRespectObjectOrder","BoardHistoryTests.testStalePerformUndoAndRedoAreAtomic","BoardHistoryTests.testInvalidEditDoesNotMutateBoardOrDiscardRedo","BoardHistoryTests.testNoOpEditsPreserveRevisionAndHistory","BoardHistoryTests.testNewEditAfterUndoDiscardsOnlyRedoBranch","BoardHistoryTests.testHistoryRetainsTwentyStatesAcrossBothStacks","BoardHistoryTests.testMissingIDsAndDuplicateIDsFailTransactionally","BoardHistoryTests.testInvalidDuplicateOffsetCannotMoveObjectsOutOfBounds","BoardHistoryTests.testRevisionOverflowPreservesBoardAndStacksWhileNoOpSucceeds","BoardHistoryTests.testEmptyHistoryAndInvalidInitializationThrow","BoardHistoryTests.testFinalRevisionGrowthCannotPushAnEditBeyondEncodedCap","BoardHistoryTests.testUndoAndRedoValidateRestoredContentAtItsNewRevision"],"editor":["single selection exposes one item without editing the board","multiple list selection toggles membership in board order","select all and clear remain transient selection actions","unknown selection IDs cannot replace a valid selection","selected members move in one editor transaction","batch forms reject changed selection with an unchanged document stamp","batch duplication selects fresh copies in original z-order","batch deletion clears its selected cohort and keeps unrelated objects","batch arrangement preserves selected identity and relative order","external board changes clear selection and cancel captured drafts","history notification invalidates drafts even at the same saved revision","a multi-selection tap removes only the tapped member","tap selection can add a member and clear on empty space","a latched drag returning to origin preserves selection without an edit","completed group drag returns one move and waits for explicit commit","read-only and invalidated movement drafts cannot commit"]}
+          root=pathlib.Path(os.environ["SPATIAL_DIAGNOSTIC_DIR"])
+          folder=root/"artifact"
+          assert folder.is_dir() and not folder.is_symlink()
+          entries=list(folder.iterdir())
+          assert len(entries)==1 and entries[0].is_file() and not entries[0].is_symlink()
+          assert entries[0].stat().st_size<=131072
+          raw=entries[0].read_bytes()
+          digest=hashlib.sha256(raw).hexdigest()
+          assert digest=="8fc213f8080323a1ed2a04abbf4ba2afb7bfc46cdf2e715a6377b076f04e0436"
+          archive=zipfile.ZipFile(io.BytesIO(raw))
+          allowed={"toolchain.log","core-results.xml","core.log","editor-results.json","editor.log","visionos-build.log","report.json","artifact-manifest.json"}
+          infos=archive.infolist()
+          assert 1<=len(infos)<=8 and len({i.filename for i in infos})==len(infos)
+          assert all(i.filename in allowed and i.file_size<=1048576 and stat.S_IFMT(i.external_attr>>16)!=stat.S_IFLNK for i in infos)
+          data={i.filename:archive.read(i) for i in infos}
+          manifest=json.loads(data["artifact-manifest.json"])
+          assert manifest["source_commit"]=="2132cec889f474c3769520d285223345c1948a74" and manifest["overflow"] is False
+          files=manifest["files"]
+          assert len({f["path"] for f in files})==len(files)
+          assert set(data)=={f["path"] for f in files}|{"artifact-manifest.json"}
+          for entry in files:
+              value=data[entry["path"]]
+              assert entry["truncated"] is False
+              assert len(value)==entry["original_bytes"]==entry["retained_bytes"]<=1048576
+              assert hashlib.sha256(value).hexdigest()==entry["sha256"]
+          core_result={"status":"missing"}
+          if "core-results.xml" in data:
+              try:
+                  tree=ET.fromstring(data["core-results.xml"])
+                  cases=list(tree.iter("testcase"))
+                  names=[c.attrib["classname"].split(".")[-1]+"."+c.attrib["name"].removesuffix("()") for c in cases]
+                  assert len(names)==len(set(names))==69 and set(names)==set(expected["core"])
+                  assert not any(list(tree.iter(tag)) for tag in ("failure","error","skipped"))
+                  core_result={"status":"verified","passed":69,"failures":0,"skips":0,"exactCaseNamesMatched":True}
+              except (AssertionError,KeyError,ValueError,ET.ParseError):
+                  core_result={"status":"invalid"}
+          editor_result={"status":"missing"}
+          if "editor-results.json" in data:
+              try:
+                  editor=json.loads(data["editor-results.json"])
+                  assert editor["schemaVersion"]==1 and editor["kind"]=="spatial-whiteboard.editor-multi-selection"
+                  assert editor["status"]=="passed" and editor["expectedCases"]==editor["passed"]==16 and editor["failed"]==0
+                  assert [c["name"] for c in editor["cases"]]==expected["editor"]
+                  assert all(c["status"]=="passed" for c in editor["cases"])
+                  editor_result={"status":"verified","passed":16,"failures":0,"exactCaseNamesMatched":True}
+              except (AssertionError,KeyError,ValueError):
+                  editor_result={"status":"invalid"}
+          toolchain=data.get("toolchain.log",b"").decode("utf-8","strict")
+          assert len(toolchain.encode("utf-8"))<=8192
+          build=data.get("visionos-build.log",b"").decode("utf-8","strict")
+          error_lines=[line for line in build.splitlines() if "error:" in line or "BUILD FAILED" in line]
+          excerpt="\n".join(error_lines)[:10000]+"\n--- build tail ---\n"+"\n".join(line[:400] for line in build.splitlines()[-12:])
+          excerpt=excerpt.encode("utf-8")[:16384].decode("utf-8","ignore")
+          excerpt=re.sub(r"https?://\S+","[URL omitted]",excerpt)
+          print(json.dumps({"diagnosticOnly":True,"sourceCommit":manifest["source_commit"],"zipSha256":digest,"manifest":manifest,"coreEvidence":core_result,"editorEvidence":editor_result,"toolchain":toolchain,"buildLogAvailable":"visionos-build.log" in data,"buildDiagnostic":excerpt},indent=2))
+          PY
+      - name: Remove only the owned diagnostic directory
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,shutil
+          value=os.environ.get("SPATIAL_DIAGNOSTIC_DIR")
+          if value:
+              root=pathlib.Path(value)
+              assert root.is_dir() and not root.is_symlink()
+              assert root.parent.resolve()==pathlib.Path(os.environ["RUNNER_TEMP"]).resolve()
+              assert root.name.startswith("spatial-diagnostic.")
+              owner=json.loads((root/"owner.json").read_text())
+              actual=root.stat()
+              assert (actual.st_dev,actual.st_ino)==(owner["device"],owner["inode"])
+              shutil.rmtree(root)
+          PY
