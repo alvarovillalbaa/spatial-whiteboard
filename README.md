@@ -1,8 +1,9 @@
 # Spatial Whiteboard
 
 A native visionOS whiteboard for drawing and diagrams in a spatial window.
-Initial drawing and diagramming source is prepared. It has not been compiled or run on a simulator
-or device; this is not an installed or distributed application.
+The source has passed 85 core/app-less editor checks and an unsigned generic
+visionOS Simulator build. App launch and device execution remain unverified;
+this is not an installed or distributed application.
 
 ## Workflow
 
@@ -61,15 +62,17 @@ Only run native checks after meeting the workspace execution/approval gates:
 BoardCore is a Foundation-only Swift package. Its authored tests are in-memory;
 UI, document-provider save/conflict handling, visionOS eye/pinch input and
 accessibility need actual platform checks. Syntax parsing alone proves none of
-those behaviors. The [native CI proposal](docs/proposals/native-checks.md) stays
-inactive until explicit approval.
+those behaviors. The older [native CI proposal](docs/proposals/native-checks.md)
+is historical; the accepted expanded scope follows below.
 
 The [multi-selection source receipt](docs/results/2026/10-29/multi-selection.md)
-records the current batch editing and native control changes. Its separate
-[85-case/build proposal](docs/proposals/multi-selection-checks.md) prepares 69
-core cases and sixteen actual editor-state cases plus an unsigned visionOS
-Simulator build. Those checks are unrun; source parsing does not establish that
-the app compiles or behaves correctly on a device.
+records the current batch editing and native control changes. The
+[85-case/build receipt](docs/results/2026/10-31/multi-selection-checks.md) accepts
+69 core cases and sixteen app-less actual editor-state cases plus an unsigned
+generic visionOS Simulator build. App launch, native input, rendered appearance,
+native undo and document saving/reopening/conflicts remain unverified; physical
+device and distribution gates remain open. [Apple's UI automation framework](https://developer.apple.com/documentation/xcuiautomation)
+does not support UI testing for apps built with the visionOS SDK.
 
 ## Format and limits
 
