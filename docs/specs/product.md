@@ -18,8 +18,12 @@ shared offset, and duplicate/delete/front/back actions apply atomically to the
 whole selection. The aggregate inspector includes a native position form;
 single-object text, size and style editing stays available. Each batch action
 is one committed board edit and one native document assignment. Selection is
-transient, without persistent grouping or any file-format addition. This is
-source implementation; its dedicated native execution proposal is unrun.
+transient, without persistent grouping or any file-format addition. The
+implementation passed 69 core cases, sixteen app-less editor cases and an
+unsigned generic visionOS Simulator build; see the
+[31 October receipt](../results/2026/10-31/multi-selection-checks.md).
+App launch, native input, rendered appearance/accessibility,
+native undo and document saving/reopening/conflicts remain unverified.
 
 This first version is a 2D board in a spatial window. Room anchoring, immersive
 3D objects, multiplayer, third-party Excalidraw/tldraw document compatibility,
