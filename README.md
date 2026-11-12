@@ -74,6 +74,13 @@ native undo and document saving/reopening/conflicts remain unverified; physical
 device and distribution gates remain open. [Apple's UI automation framework](https://developer.apple.com/documentation/xcuiautomation)
 does not support UI testing for apps built with the visionOS SDK.
 
+The [12 November launch attempts](docs/results/2026/11-12/simulator-launch.md)
+retain a fresh unchanged-app build followed by simulator-inventory failures.
+No app install/launch or screenshot was reached. The first simulator teardown
+is unproved; the changed continuation created no device and cleaned its owned
+scratch. Both QA refs and the temporary workflow are retired. Native acceptance
+remains open; no unchanged automatic retry is scheduled.
+
 ## Format and limits
 
 Native documents permit up to 500 objects, 10000 points per stroke and 50000

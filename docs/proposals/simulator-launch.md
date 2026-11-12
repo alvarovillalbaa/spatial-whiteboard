@@ -68,3 +68,11 @@ verifies its directory is absent and preserves every preexisting device
 directory's original presence. No timeout increase, service reset, global
 shutdown/delete, runtime switch, weakening of the app assertions or second
 simultaneous job is authorized. The earlier unproved cleanup remains unproved.
+
+The [changed continuation also failed](../results/2026/11-12/simulator-launch-attempt-2.md)
+at runtime inventory before any device creation. Both terminal originals are
+retained, workflow415336739 is disabled and both QA refs are retired. This
+packet is stopped without a launch verdict. Resume native execution only after
+an evidence-supported environment/tool change or a separately prepared
+diagnostic that can resolve the observed availability boundary; source status
+alone does not authorize an unchanged repeat or timeout increase.
