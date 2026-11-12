@@ -22,7 +22,7 @@ SOURCE = os.environ["SPATIAL_SOURCE_COMMIT"]
 assert re.fullmatch(r"[0-9a-f]{40}", SOURCE)
 assert platform.system() == "Darwin" and platform.machine() == "arm64"
 assert os.environ["GITHUB_REPOSITORY"] == "alvarovillalbaa/spatial-whiteboard"
-assert os.environ["GITHUB_REF"] == "refs/heads/qa/spatial-launch-20261112"
+assert os.environ["GITHUB_REF"] == "refs/heads/qa/spatial-launch-20261112-ci2"
 assert os.environ["SPATIAL_PUBLIC_REPOSITORY"] == "true"
 repo = Path.cwd().resolve()
 parent = Path(os.environ["RUNNER_TEMP"]).resolve()
@@ -126,6 +126,14 @@ def owned(name):
     return rows[device]
 
 
+def pinned_device():
+    assert device not in preexisting and device_row["name"] == device_name
+    assert device_row["runtime"] == runtime["identifier"]
+    current = device_path.lstat()
+    assert not device_path.is_symlink() and stat.S_ISDIR(current.st_mode)
+    assert (current.st_dev, current.st_ino, current.st_uid) == device_identity
+
+
 def guard(label):
     assert run(label + "-head", ["git", "rev-parse", "HEAD"]).decode().strip() == SOURCE
     assert run(label + "-status", ["git", "status", "--porcelain=v1", "--untracked-files=all", "--ignored"]) == b""
@@ -162,6 +170,8 @@ try:
     preexisting = devices("devices-before")
     assert all(row["name"] != device_name for row in preexisting.values())
     report["preexistingDeviceIds"] = sorted(preexisting)
+    preexisting_paths = {key: Path(row["dataPath"]).parent for key, row in preexisting.items()}
+    preexisting_presence = {key: path.exists() for key, path in preexisting_paths.items()}
     report["ownedDeviceName"] = device_name
     run("build", ["/usr/bin/xcodebuild", "-project", "SpatialWhiteboard.xcodeproj", "-scheme", "SpatialWhiteboard",
                   "-configuration", "Debug", "-sdk", "xrsimulator", "-destination", "generic/platform=visionOS Simulator",
@@ -174,10 +184,18 @@ try:
     created = sim("create", "create", device_name, device_type["identifier"], runtime["identifier"]).decode().strip()
     device = str(uuid.UUID(created)).upper()
     report["ownedDeviceId"] = device
-    owned("device-created")
+    device_row = owned("device-created")
+    device_path = Path(device_row["dataPath"]).parent
+    assert device_path.name == device and device_path.parent.name == "Devices"
+    item = device_path.lstat()
+    device_identity = (item.st_dev, item.st_ino, item.st_uid)
+    pinned_device()
+    report["ownedDeviceIdentity"] = {"path": str(device_path), "identity": device_identity,
+                                      "nativeCreatedRow": device_row}
     sim("boot", "boot", device)
     sim("boot-status", "bootstatus", device, "-b", seconds=180)
-    assert owned("device-booted")["state"] == "Booted"
+    pinned_device()
+    report["stages"]["bootCommand"] = {"status": "completed", "appReadinessProved": False}
     sim("install", "install", device, str(app), seconds=60)
     installed = True
     app_container = sim("app-container", "get_app_container", device, bundle_id, "app").decode().strip()
@@ -221,23 +239,19 @@ finally:
             except ValueError: report["errors"].append("device creation outcome unknown")
     if device is not None:
         try:
-            row = owned("cleanup-device-identity")
-            device_path = Path(row["dataPath"]).parent
-            assert device_path.name == device and device_path.parent.name == "Devices"
-            if row["state"] == "Booted":
-                if launched: sim("terminate", "terminate", device, bundle_id, allowed=(0, 3))
-                if installed: sim("uninstall", "uninstall", device, bundle_id)
-                sim("shutdown", "shutdown", device, seconds=60)
-            assert owned("device-stopped")["state"] == "Shutdown"
+            pinned_device()
+            if launched: sim("terminate", "terminate", device, bundle_id, allowed=(0, 3))
+            if installed: sim("uninstall", "uninstall", device, bundle_id)
+            sim("shutdown", "shutdown", device, seconds=60)
+            pinned_device()
             sim("delete", "delete", device, seconds=60)
-            after_devices = devices("devices-after")
-            assert device not in after_devices and set(preexisting) <= set(after_devices)
-            report["cleanup"]["ownedDeviceAbsent"] = True
-            report["cleanup"]["preexistingDeviceIdsRetained"] = True
             deadline = time.monotonic() + 30
             while device_path.exists() and time.monotonic() < deadline: time.sleep(0.5)
             assert not device_path.exists(), "owned simulator directory remains"
             report["cleanup"]["ownedDeviceDirectoryAbsent"] = True
+            assert {key: path.exists() for key, path in preexisting_paths.items()} == preexisting_presence
+            report["cleanup"]["preexistingDeviceDirectoryPresenceUnchanged"] = True
+            report["cleanup"]["nativeDeleteCompleted"] = True
             if launched:
                 remaining = run("app-pid-after", ["/bin/ps", "-p", str(app_pid), "-o", "command="], allowed=(0, 1)).decode().strip()
                 assert not remaining, "application PID still exists after owned device deletion"

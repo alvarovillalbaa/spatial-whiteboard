@@ -50,3 +50,21 @@ describes native captures. This job does not substitute app-less editor calls
 or an iOS compatibility target for visionOS interaction. Drawing, selection,
 undo, file export/save/reopen/conflicts, accessibility, physical eye/pinch input
 and distribution remain explicit acceptance work after this launch boundary.
+
+## Changed continuation: target only the owned device after boot
+
+[Attempt1](../results/2026/11-12/simulator-launch-attempt-1.md) compiled and
+created/booted its exact device, then the all-device inventory query timed out.
+Its repeated inventory guard prevented native teardown; device deletion remains
+unproved. Preserve that failed receipt and its empty/incomplete timed-out streams.
+
+One changed continuation uses the same2.5 runtime and unchanged app. Pin the
+created device's native name/runtime/data path and directory identity before
+boot. After boot, target only its exact UUID; do not require a global inventory
+call before install or cleanup. Bootstatus completion alone remains separate
+from readiness. Actual install, reported app PID/liveness and reviewed capture
+are still required. Cleanup uses native shutdown/delete on that pinned UUID,
+verifies its directory is absent and preserves every preexisting device
+directory's original presence. No timeout increase, service reset, global
+shutdown/delete, runtime switch, weakening of the app assertions or second
+simultaneous job is authorized. The earlier unproved cleanup remains unproved.
