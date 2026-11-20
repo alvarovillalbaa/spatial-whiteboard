@@ -1,5 +1,9 @@
 # Spatial Whiteboard
 
+<!-- project-family:start -->
+> **Project family:** [OS Apps](https://github.com/alvarovillalbaa#os-apps) · **Area:** visionOS
+<!-- project-family:end -->
+
 A native visionOS whiteboard for drawing and diagrams in a spatial window.
 The source has passed 85 core/app-less editor checks and an unsigned generic
 visionOS Simulator build. App launch and device execution remain unverified;
